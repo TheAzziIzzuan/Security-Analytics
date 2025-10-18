@@ -10,97 +10,117 @@ const api = axios.create({
   },
 })
 
-// Add token to requests if available
+// Add token and session ID to requests
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token')
+  const sessionId = localStorage.getItem('sessionId')
+  
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
+  
+  if (sessionId) {
+    config.headers['X-Session-Id'] = sessionId
+  }
+  
   return config
 })
 
-// Mock API responses for development (remove when backend is ready)
-const MOCK_MODE = true
-
-const mockUsers = [
-  { id: 1, username: 'supervisor1', password: 'password123', role: 'supervisor', email: 'supervisor@sakuramasas.com' },
-  { id: 2, username: 'employee1', password: 'password123', role: 'employee', email: 'employee@sakuramasas.com' },
-  { id: 3, username: 'contractor1', password: 'password123', role: 'contractor', email: 'contractor@sakuramasas.com' },
-]
+// Handle response errors
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      // Token expired - clear storage and redirect
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      localStorage.removeItem('sessionId')
+    }
+    return Promise.reject(error)
+  }
+)
 
 const authService = {
   async login(username, password) {
     // Log login attempt
     logActivity('login_attempt', { username })
 
-    if (MOCK_MODE) {
-      // Mock login
-      const user = mockUsers.find(u => u.username === username && u.password === password)
-      if (user) {
-        const token = `mock-token-${user.id}-${Date.now()}`
-        const userData = { id: user.id, username: user.username, role: user.role, email: user.email }
-        
-        // Log successful login
-        logActivity('login_success', { username, role: user.role })
-        
-        return { token, user: userData }
-      } else {
-        // Log failed login
-        logActivity('login_failed', { username, reason: 'invalid_credentials' })
-        throw new Error('Invalid username or password')
-      }
-    }
-
     try {
       const response = await api.post('/auth/login', { username, password })
-      logActivity('login_success', { username, role: response.data.user.role })
-      return response.data
+      const { access_token, session_id, user } = response.data
+      
+      // Map role_id to role name for frontend compatibility
+      const roleMap = {
+        1: 'admin',
+        2: 'supervisor',
+        3: 'employee',
+        4: 'contractor'
+      }
+      
+      const userData = {
+        id: user.user_id,
+        username: user.username,
+        email: user.email,
+        role: user.role_name ? user.role_name.toLowerCase() : roleMap[user.role_id] || 'employee',
+        full_name: user.full_name
+      }
+      
+      // Store token, session ID, and user data
+      localStorage.setItem('token', access_token)
+      localStorage.setItem('sessionId', session_id)
+      localStorage.setItem('user', JSON.stringify(userData))
+      
+      // Log successful login
+      logActivity('login_success', { username, role: userData.role })
+      
+      return { token: access_token, user: userData, session_id }
     } catch (error) {
-      logActivity('login_failed', { username, reason: error.response?.data?.message || 'unknown' })
-      throw error
+      const errorMessage = error.response?.data?.error || 'Invalid username or password'
+      logActivity('login_failed', { username, reason: errorMessage })
+      throw new Error(errorMessage)
     }
   },
 
-  async register(username, email, password, role) {
+  async register(username, email, password, full_name, role_id = 3) {
     // Log registration attempt
-    logActivity('registration_attempt', { username, email, role })
-
-    if (MOCK_MODE) {
-      // Mock registration
-      const existingUser = mockUsers.find(u => u.username === username || u.email === email)
-      if (existingUser) {
-        logActivity('registration_failed', { username, email, reason: 'user_exists' })
-        throw new Error('Username or email already exists')
-      }
-
-      const newUser = {
-        id: mockUsers.length + 1,
-        username,
-        email,
-        role,
-      }
-      mockUsers.push({ ...newUser, password })
-      const token = `mock-token-${newUser.id}-${Date.now()}`
-      
-      logActivity('registration_success', { username, email, role })
-      
-      return { token, user: newUser }
-    }
+    logActivity('registration_attempt', { username, email })
 
     try {
-      const response = await api.post('/auth/register', { username, email, password, role })
-      logActivity('registration_success', { username, email, role })
+      const response = await api.post('/auth/register', { 
+        username, 
+        email, 
+        password, 
+        full_name,
+        role_id 
+      })
+      
+      const { user } = response.data
+      
+      logActivity('registration_success', { username, email })
+      
       return response.data
     } catch (error) {
-      logActivity('registration_failed', { username, email, reason: error.response?.data?.message || 'unknown' })
-      throw error
+      const errorMessage = error.response?.data?.error || 'Registration failed'
+      logActivity('registration_failed', { username, email, reason: errorMessage })
+      throw new Error(errorMessage)
     }
   },
 
-  logout() {
-    logActivity('logout', {})
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
+  async logout() {
+    const sessionId = localStorage.getItem('sessionId')
+    
+    try {
+      // Call backend logout endpoint
+      await api.post('/auth/logout', { session_id: sessionId })
+    } catch (error) {
+      console.error('Logout error:', error)
+    } finally {
+      // Always clear local storage
+      logActivity('logout', {})
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      localStorage.removeItem('sessionId')
+    }
   },
 
   getCurrentUser() {

@@ -1,8 +1,48 @@
 version: '3.8'
 
 services:
+  # MySQL Database
+  db:
+    image: mariadb:10.4
+    container_name: sakura_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: sakura_masas
+      MYSQL_USER: sakura_user
+      MYSQL_PASSWORD: sakura_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ../sakura_masas.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - sakura_network
+
+  # Flask Backend
+  backend:
+    build: ../backend
+    container_name: sakura_backend
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=mysql+pymysql://sakura_user:sakura_pass@db:3306/sakura_masas
+      - JWT_SECRET_KEY=your-jwt-secret-change-in-production
+      - SECRET_KEY=your-flask-secret-change-in-production
+      - FLASK_ENV=development
+    volumes:
+      - ../backend:/app
+    depends_on:
+      - db
+    networks:
+      - sakura_network
+
+  # React Frontend
   frontend:
     build: .
+    container_name: sakura_frontend
+    restart: always
     ports:
       - "5173:5173"
     volumes:
@@ -12,3 +52,14 @@ services:
       - VITE_API_URL=http://localhost:5000
     stdin_open: true
     tty: true
+    depends_on:
+      - backend
+    networks:
+      - sakura_network
+
+networks:
+  sakura_network:
+    driver: bridge
+
+volumes:
+  db_data:

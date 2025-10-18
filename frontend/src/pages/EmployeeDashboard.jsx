@@ -1,11 +1,14 @@
+import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { logActivity } from '../services/activityLogger'
+import InventoryManagement from '../components/InventoryManagement'
 import './Dashboard.css'
 
 const EmployeeDashboard = () => {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const [activeView, setActiveView] = useState('dashboard')
 
   const handleLogout = () => {
     logActivity('logout_clicked', { role: 'employee' })
@@ -15,8 +18,65 @@ const EmployeeDashboard = () => {
 
   const handleAction = (action) => {
     logActivity('dashboard_action', { role: 'employee', action })
-    alert(`Action: ${action} - This will be implemented with backend integration`)
+    
+    if (action === 'view_inventory') {
+      setActiveView('inventory')
+    } else {
+      alert(`${action} - Coming soon!`)
+    }
   }
+
+  const renderView = () => {
+    if (activeView === 'inventory') {
+      return <InventoryManagement onClose={() => setActiveView('dashboard')} />
+    }
+    return renderDashboardGrid()
+  }
+
+  const renderDashboardGrid = () => (
+    <>
+      <div className="dashboard-header">
+        <h1>Employee Dashboard</h1>
+        <p>Access to inventory and orders</p>
+      </div>
+
+      <div className="dashboard-grid">
+        <div className="dashboard-card" onClick={() => handleAction('view_inventory')}>
+          <h3>📦 View Inventory</h3>
+          <p>View and search inventory items</p>
+          <span className="card-action">Access →</span>
+        </div>
+
+        <div className="dashboard-card" onClick={() => handleAction('place_order')}>
+          <h3>🛒 Place Order</h3>
+          <p>Submit new inventory orders</p>
+          <span className="card-action">Access →</span>
+        </div>
+
+        <div className="dashboard-card" onClick={() => handleAction('my_orders')}>
+          <h3>📋 My Orders</h3>
+          <p>View your order history</p>
+          <span className="card-action">Access →</span>
+        </div>
+
+        <div className="dashboard-card" onClick={() => handleAction('my_activity')}>
+          <h3>📊 My Activity</h3>
+          <p>View your activity logs</p>
+          <span className="card-action">Access →</span>
+        </div>
+      </div>
+
+      <div className="info-section">
+        <h3>Employee Access:</h3>
+        <ul>
+          <li>View inventory items</li>
+          <li>Place and track orders</li>
+          <li>View personal activity logs</li>
+          <li>Update profile information</li>
+        </ul>
+      </div>
+    </>
+  )
 
   return (
     <div className="dashboard-container">
@@ -37,54 +97,7 @@ const EmployeeDashboard = () => {
           <p>Standard inventory operations</p>
         </div>
 
-        <div className="dashboard-grid">
-          <div className="dashboard-card" onClick={() => handleAction('view_inventory')}>
-            <h3>📦 View Inventory</h3>
-            <p>Browse inventory items and stock levels</p>
-            <span className="card-action">Access →</span>
-          </div>
-
-          <div className="dashboard-card" onClick={() => handleAction('add_items')}>
-            <h3>➕ Add Items</h3>
-            <p>Add new items to inventory</p>
-            <span className="card-action">Access →</span>
-          </div>
-
-          <div className="dashboard-card" onClick={() => handleAction('update_stock')}>
-            <h3>📝 Update Stock</h3>
-            <p>Modify stock quantities</p>
-            <span className="card-action">Access →</span>
-          </div>
-
-          <div className="dashboard-card" onClick={() => handleAction('create_order')}>
-            <h3>🛒 Create Orders</h3>
-            <p>Submit new purchase orders</p>
-            <span className="card-action">Access →</span>
-          </div>
-
-          <div className="dashboard-card" onClick={() => handleAction('view_orders')}>
-            <h3>📋 My Orders</h3>
-            <p>View your order history</p>
-            <span className="card-action">Access →</span>
-          </div>
-
-          <div className="dashboard-card" onClick={() => handleAction('export_data')}>
-            <h3>📥 Export Data</h3>
-            <p>Export inventory reports</p>
-            <span className="card-action">Access →</span>
-          </div>
-        </div>
-
-        <div className="info-section">
-          <h3>Employee Access:</h3>
-          <ul>
-            <li>View inventory items and stock levels</li>
-            <li>Add and update inventory items</li>
-            <li>Create and manage orders</li>
-            <li>Export inventory data</li>
-            <li>Limited to own order history</li>
-          </ul>
-        </div>
+        {renderView()}
       </div>
     </div>
   )

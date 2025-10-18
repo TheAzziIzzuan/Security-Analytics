@@ -241,16 +241,13 @@ CREATE TABLE `users` (
 
 --
 -- Dumping data for table `users`
+-- Demo credentials: supervisor1/password123, employee1/password123, contractor1/password123
 --
 
 INSERT INTO `users` (`user_id`, `username`, `password_hash`, `created_at`, `role_id`) VALUES
-(1, 'alice', '4e40e8ffe0ee32fa53e139147ed559229a5930f89c2204706fc174beb36210b3', '2025-10-14 08:31:04', 2),
-(2, 'bob', '8d059c3640b97180dd2ee453e20d34ab0cb0f2eccbe87d01915a8e578a202b11', '2025-10-14 08:31:04', 3),
-(3, 'charlie', '1afda89737a745f15d42807d54f67c803727d75ce443b0f3a659531b38ae660f', '2025-10-14 08:31:04', 1),
-(4, 'diana', 'afc466a3368ecd5720833b670fa0d40e376d6c9dc6f61406e3ee496892f2f1e5', '2025-10-14 08:31:04', 2),
-(5, 'edward', '300bb5f7f3717d0248c720e0c217b70f0a9714e1f7f09c8bfa3ee9c1f0ad0513', '2025-10-14 08:31:04', 3),
-(6, 'frank', '2e51672858831d330326f5bbd72a42848314e6d6a35b5b75670b1e602fa04f3d', '2025-10-14 08:31:04', 1),
-(7, 'grace', 'd53ecaf3fc441a2086dc0cdc26692699dc8e12dd80f329414d605f1cdc4da3df', '2025-10-14 08:31:04', 2);
+(1, 'supervisor1', '$2b$12$1zfRhBFf9biyNdB3eYR2U.hhJ4kO6sJoBHIgtXbtLKXhixNUbWx1.', '2025-10-18 08:00:00', 1),
+(2, 'employee1', '$2b$12$1zfRhBFf9biyNdB3eYR2U.hhJ4kO6sJoBHIgtXbtLKXhixNUbWx1.', '2025-10-18 08:00:00', 2),
+(3, 'contractor1', '$2b$12$1zfRhBFf9biyNdB3eYR2U.hhJ4kO6sJoBHIgtXbtLKXhixNUbWx1.', '2025-10-18 08:00:00', 3);
 
 -- --------------------------------------------------------
 
