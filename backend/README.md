@@ -7,6 +7,7 @@ Flask-based REST API for the Security Analytics project with anomaly detection a
 - **Authentication & Authorization**: JWT-based user authentication
 - **User Management**: CRUD operations for users and roles
 - **Inventory Management**: Complete inventory system with CRUD operations
+- **Orders Management**: Create, view, update, and delete orders (inventory quantity is adjusted accordingly)
 - **Activity Logging**: Comprehensive logging of all user actions
 - **Anomaly Detection**: Basic pattern matching for suspicious activities
 - **Security Analytics**: Dashboard statistics and risk profiling
@@ -120,6 +121,14 @@ backend/
 - `PUT /api/inventory/<id>` - Update item
 - `DELETE /api/inventory/<id>` - Delete item
 - `GET /api/inventory/categories` - Get all categories
+
+### Orders
+- `GET /api/orders/` - Get all orders (optional filters: user_id, item_id)
+- `GET /api/orders/<id>` - Get order by ID
+- `POST /api/orders/` - Create new order (checks inventory and deducts quantity)
+- `PUT /api/orders/<id>` - Update order (adjusts inventory if quantity changes)
+- `DELETE /api/orders/<id>` - Delete/cancel order (returns quantity to inventory)
+- `GET /api/orders/user/<user_id>` - Get all orders for a specific user
 
 ### Logs
 - `GET /api/logs/` - Get activity logs

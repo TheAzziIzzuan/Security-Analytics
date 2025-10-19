@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext'
 import { logActivity } from '../services/activityLogger'
 import './OrderManagement.css'
 
-const OrderManagement = ({ onClose }) => {
+const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMount = false }) => {
   const { user: currentUser } = useAuth()
   const [orders, setOrders] = useState([])
   const [inventory, setInventory] = useState([])
@@ -39,13 +39,25 @@ const OrderManagement = ({ onClose }) => {
     }
   }, [filterUserId, filterItemId])
 
+  // Auto-open add modal on mount when requested (e.g., from Employee "Place Order")
+  useEffect(() => {
+    if (openAddOnMount) {
+      setShowAddModal(true)
+      logActivity('order_add_modal_auto_open', {})
+    }
+  }, [openAddOnMount])
+
   const loadOrders = async () => {
     try {
       setLoading(true)
       const filters = {}
-      if (filterUserId) filters.user_id = filterUserId
+      const isSup = currentUser?.role === 'supervisor' || currentUser?.role === 'admin'
+      if (restrictToCurrentUser || !isSup) {
+        if (currentUser?.id) filters.user_id = currentUser.id
+      } else if (filterUserId) {
+        filters.user_id = filterUserId
+      }
       if (filterItemId) filters.item_id = filterItemId
-      
       const data = await orderService.getOrders(filters)
       setOrders(data)
       setError('')
@@ -86,7 +98,9 @@ const OrderManagement = ({ onClose }) => {
     setSuccess('')
 
     try {
-      await orderService.createOrder(formData)
+      const isSup = currentUser?.role === 'supervisor' || currentUser?.role === 'admin'
+      const payload = isSup ? formData : { item_id: formData.item_id, quantity: formData.quantity }
+      await orderService.createOrder(payload)
       setSuccess('Order created successfully!')
       setShowAddModal(false)
       setFormData({ user_id: '', item_id: '', quantity: 1 })
@@ -127,7 +141,9 @@ const OrderManagement = ({ onClose }) => {
   }
 
   const handleDeleteOrder = async (order) => {
+    logActivity('order_delete_clicked', { order_id: order.order_id })
     if (!window.confirm(`Are you sure you want to cancel this order for ${order.item_name}?`)) {
+      logActivity('order_delete_cancelled', { order_id: order.order_id })
       return
     }
 
@@ -148,6 +164,7 @@ const OrderManagement = ({ onClose }) => {
   }
 
   const openEditModal = (order) => {
+    logActivity('order_edit_modal_open', { order_id: order.order_id })
     setCurrentOrder(order)
     setFormData({
       user_id: order.user_id,
@@ -163,21 +180,53 @@ const OrderManagement = ({ onClose }) => {
     setCurrentOrder(null)
     setFormData({ user_id: '', item_id: '', quantity: 1 })
     setError('')
+    logActivity('order_modal_closed', {})
   }
 
   const isSupervisor = currentUser?.role === 'supervisor' || currentUser?.role === 'admin'
 
+  // Export orders to CSV
+  const exportOrdersCSV = () => {
+    const headers = ['Order ID', 'User', 'Item', 'Quantity', 'Order Time']
+    const rows = orders.map((order) => [
+      order.order_id,
+      order.username || 'Unknown',
+      order.item_name || 'Unknown Item',
+      order.quantity,
+      order.order_time ? new Date(order.order_time).toISOString() : ''
+    ])
+
+    const csvContent = [headers, ...rows]
+      .map((row) => row.map((val) => `"${String(val).replace(/"/g, '""')}"`).join(','))
+      .join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = 'orders_export.csv'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+
+    logActivity('orders_export_csv', { count: orders.length, filterUserId: filterUserId || null, filterItemId: filterItemId || null })
+  }
+
+  // Dynamic header and labels based on view mode
+  const headerTitle = openAddOnMount
+    ? '🛒 Place Order'
+    : (restrictToCurrentUser ? '📋 My Orders' : '📋 Order Management')
+  const addBtnLabel = openAddOnMount ? '+ Create Another Order' : '+ Create New Order'
+
   return (
     <div className="order-management">
       <div className="order-header">
-        <h2>📋 Order Management</h2>
+        <h2>{headerTitle}</h2>
         {onClose && (
           <button onClick={onClose} className="btn-close">✕</button>
         )}
       </div>
-
-      {error && <div className="alert alert-error">{error}</div>}
-      {success && <div className="alert alert-success">{success}</div>}
 
       {/* Filters and Actions */}
       <div className="order-controls">
@@ -185,7 +234,7 @@ const OrderManagement = ({ onClose }) => {
           {isSupervisor && (
             <select
               value={filterUserId}
-              onChange={(e) => setFilterUserId(e.target.value)}
+              onChange={(e) => { setFilterUserId(e.target.value); logActivity('orders_filter_user_changed', { user_id: e.target.value || null }) }}
               className="filter-select"
             >
               <option value="">All Users</option>
@@ -199,7 +248,7 @@ const OrderManagement = ({ onClose }) => {
           
           <select
             value={filterItemId}
-            onChange={(e) => setFilterItemId(e.target.value)}
+            onChange={(e) => { setFilterItemId(e.target.value); logActivity('orders_filter_item_changed', { item_id: e.target.value || null }) }}
             className="filter-select"
           >
             <option value="">All Items</option>
@@ -212,10 +261,17 @@ const OrderManagement = ({ onClose }) => {
         </div>
 
         <button 
-          onClick={() => setShowAddModal(true)} 
+          onClick={() => { setShowAddModal(true); logActivity('order_add_modal_open', {}) }} 
           className="btn btn-primary"
         >
-          + Create New Order
+          {addBtnLabel}
+        </button>
+        <button 
+          onClick={exportOrdersCSV}
+          className="btn btn-secondary"
+          style={{ marginLeft: '8px' }}
+        >
+          ⬇️ Export CSV
         </button>
       </div>
 
@@ -247,22 +303,26 @@ const OrderManagement = ({ onClose }) => {
                     <td>{order.username || 'Unknown'}</td>
                     <td>{order.item_name || 'Unknown Item'}</td>
                     <td className="quantity">{order.quantity}</td>
-                    <td>{new Date(order.order_time).toLocaleString()}</td>
+                    <td>{formatOrderTime(order.order_time)}</td>
                     <td className="actions">
-                      <button 
-                        onClick={() => openEditModal(order)}
-                        className="btn-icon btn-edit"
-                        title="Edit Quantity"
-                      >
-                        ✏️
-                      </button>
-                      <button 
-                        onClick={() => handleDeleteOrder(order)}
-                        className="btn-icon btn-delete"
-                        title="Cancel Order"
-                      >
-                        🗑️
-                      </button>
+                      {(isSupervisor || order.user_id === currentUser?.id) && (
+                        <button 
+                          onClick={() => openEditModal(order)}
+                          className="btn-icon btn-edit"
+                          title="Edit Quantity"
+                        >
+                          ✏️
+                        </button>
+                      )}
+                      {(isSupervisor || order.user_id === currentUser?.id) && (
+                        <button 
+                          onClick={() => handleDeleteOrder(order)}
+                          className="btn-icon btn-delete"
+                          title="Cancel Order"
+                        >
+                          🗑️
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))
@@ -384,3 +444,15 @@ const OrderManagement = ({ onClose }) => {
 }
 
 export default OrderManagement
+
+// Helper: ensure UTC timestamps from backend display in local time
+const formatOrderTime = (ts) => {
+  try {
+    if (!ts) return '—'
+    const hasTZ = /[zZ]|[+-]\d{2}:\d{2}$/.test(ts)
+    const d = new Date(hasTZ ? ts : ts + 'Z')
+    return d.toLocaleString()
+  } catch (_) {
+    return ts
+  }
+}

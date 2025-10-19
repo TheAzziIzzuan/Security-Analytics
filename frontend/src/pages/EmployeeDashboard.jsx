@@ -3,12 +3,14 @@ import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { logActivity } from '../services/activityLogger'
 import InventoryManagement from '../components/InventoryManagement'
+import OrderManagement from '../components/OrderManagement'
 import './Dashboard.css'
 
 const EmployeeDashboard = () => {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const [activeView, setActiveView] = useState('dashboard')
+  const [ordersAutoOpenAdd, setOrdersAutoOpenAdd] = useState(false)
 
   const handleLogout = () => {
     logActivity('logout_clicked', { role: 'employee' })
@@ -21,6 +23,9 @@ const EmployeeDashboard = () => {
     
     if (action === 'view_inventory') {
       setActiveView('inventory')
+    } else if (action === 'orders') {
+      setOrdersAutoOpenAdd(false)
+      setActiveView('orders')
     } else {
       alert(`${action} - Coming soon!`)
     }
@@ -29,6 +34,13 @@ const EmployeeDashboard = () => {
   const renderView = () => {
     if (activeView === 'inventory') {
       return <InventoryManagement onClose={() => setActiveView('dashboard')} />
+    }
+    if (activeView === 'orders') {
+      return (
+        <div>
+          <OrderManagement onClose={() => setActiveView('dashboard')} restrictToCurrentUser={true} openAddOnMount={ordersAutoOpenAdd} />
+        </div>
+      )
     }
     return renderDashboardGrid()
   }
@@ -47,15 +59,9 @@ const EmployeeDashboard = () => {
           <span className="card-action">Access →</span>
         </div>
 
-        <div className="dashboard-card" onClick={() => handleAction('place_order')}>
-          <h3>🛒 Place Order</h3>
-          <p>Submit new inventory orders</p>
-          <span className="card-action">Access →</span>
-        </div>
-
-        <div className="dashboard-card" onClick={() => handleAction('my_orders')}>
-          <h3>📋 My Orders</h3>
-          <p>View your order history</p>
+        <div className="dashboard-card" onClick={() => handleAction('orders')}>
+          <h3>📋 Orders</h3>
+          <p>Place and track your orders</p>
           <span className="card-action">Access →</span>
         </div>
 

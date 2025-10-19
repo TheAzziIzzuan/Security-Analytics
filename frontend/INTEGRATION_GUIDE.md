@@ -7,6 +7,7 @@
 2. **userService.js** - User management and role operations
 3. **logsService.js** - Activity logs and session tracking
 4. **analyticsService.js** - Analytics, anomaly scores, and risk profiles
+5. **orderService.js** - Orders management (create, view, update, delete)
 
 ### **Updated Components**
 1. **authService.js** - Now uses real backend authentication (JWT tokens)
@@ -25,8 +26,8 @@
    - Role-based access
 
 4. **All Dashboards** - Integrated with real functionality:
-   - **SupervisorDashboard** - Full access to inventory and user management
-   - **EmployeeDashboard** - Access to inventory management
+  - **SupervisorDashboard** - Full access to inventory, user management, and orders
+   - **EmployeeDashboard** - Unified **Orders** view (place and view orders) and inventory management
    - **ContractorDashboard** - Read-only inventory access
 
 ## 🚀 How to Test
@@ -88,6 +89,21 @@ curl -X POST http://localhost:5000/api/auth/register `
 3. View the users table
 4. Try deactivating a user
 
+### 6. Test Orders Management
+1. Click on **🧾 Orders** card (Employee)
+2. In the Orders view:
+   - Create a new order using the **Create Order** button
+   - Confirm the order appears in the list
+   - Use filters (e.g., My Orders) if available
+
+### 7. Test Inventory Low-Stock Feature
+1. Click on **📦 Inventory Management**
+2. Toggle **Show low stock only**
+3. Set **Low-stock threshold** (e.g., 5)
+4. Confirm table shows only items below the threshold and highlights them
+5. Export CSV and verify it matches the displayed list
+
+
 ## 📝 API Authentication
 
 All API calls now require:
@@ -130,8 +146,8 @@ SELECT * FROM user_logs ORDER BY timestamp DESC LIMIT 20;
 
 ### **Employee**
 - ✅ Full inventory management (CRUD)
+- ✅ Unified Orders: place new orders and view your orders
 - ❌ No user management
-- 🔜 Order management (coming soon)
 
 ### **Contractor**
 - ✅ View inventory (read-only in UI, but backend allows full access - you may want to restrict this)
@@ -158,10 +174,9 @@ docker logs sakura_backend --tail 20
 ## 📊 Next Steps to Implement
 
 The following features still show "Coming soon":
-1. **Orders Management** - Place and track orders
-2. **Reports & Analytics** - Use analyticsService.js
-3. **Security Logs** - Use logsService.js  
-4. **Activity Dashboard** - Show user activity graphs
+1. **Reports & Analytics** - Use analyticsService.js
+2. **Security Logs** - Use logsService.js  
+3. **Activity Dashboard** - Show user activity graphs
 
 You can implement these using the API services already created!
 

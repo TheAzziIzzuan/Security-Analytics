@@ -16,7 +16,7 @@
 1. ✅ `/frontend/src/services/authService.js` - Now uses real backend API
 2. ✅ `/frontend/src/components/UserManagement.jsx` - Backend integration
 3. ✅ `/frontend/src/pages/SupervisorDashboard.jsx` - Shows inventory & user management
-4. ✅ `/frontend/src/pages/EmployeeDashboard.jsx` - Shows inventory management
+4. ✅ `/frontend/src/pages/EmployeeDashboard.jsx` - Shows inventory management and unified Orders view
 5. ✅ `/frontend/src/pages/ContractorDashboard.jsx` - Read-only inventory view
 
 ## What Works Now ✨
@@ -36,6 +36,13 @@
 - ✅ Delete items
 - ✅ Real-time updates
 - ✅ Responsive design
+
+### **Orders Management**
+- ✅ View all orders (Supervisor)
+- ✅ View your orders (Employee)
+- ✅ Create orders (deducts inventory automatically)
+- ✅ Update order quantity (adjusts inventory accordingly)
+- ✅ Delete/cancel orders (returns quantity to inventory)
 
 ### **User Management** (Supervisor only)
 - ✅ View all users
@@ -85,6 +92,12 @@ curl -X POST http://localhost:5000/api/auth/register `
 - [ ] Can delete item
 - [ ] See success/error messages
 
+### Orders (Employee/Supervisor)
+- [ ] Employee: Can create an order and see it in My Orders
+- [ ] Supervisor: Can view all orders
+- [ ] Updating order quantity adjusts inventory
+- [ ] Deleting an order returns quantity to inventory
+
 ### User Management (Supervisor only)
 - [ ] Can view all users
 - [ ] Can create new user
@@ -95,6 +108,11 @@ curl -X POST http://localhost:5000/api/auth/register `
 - [ ] Can switch between dashboard and features
 - [ ] Back button works
 - [ ] Logout works properly
+
+### Inventory Low-Stock
+- [ ] Toggle “Show low stock only” filters table
+- [ ] Changing threshold updates list and highlighting
+- [ ] Export CSV matches the displayed (filtered) results
 
 ## Architecture Overview
 
@@ -157,11 +175,10 @@ All endpoints are prefixed with `/api`:
 ## Features Still To Implement 🚧
 
 These show "Coming soon" alerts:
-1. **Orders Management** - Full order lifecycle
-2. **Reports & Analytics Dashboard** - Use analyticsService
-3. **Security Logs Viewer** - Use logsService
-4. **My Activity View** - Personal activity history
-5. **Export Functionality** - Download reports
+1. **Reports & Analytics Dashboard** - Use analyticsService
+2. **Security Logs Viewer** - Use logsService
+3. **My Activity View** - Personal activity history
+4. **Export Functionality** - Download reports
 
 The API services are ready - just need to build the UI!
 

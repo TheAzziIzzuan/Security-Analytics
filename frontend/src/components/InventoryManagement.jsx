@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import inventoryService from '../services/inventoryService'
 import { logActivity } from '../services/activityLogger'
 import './InventoryManagement.css'
+ import { useAuth } from '../context/AuthContext'
 
 const InventoryManagement = ({ onClose }) => {
   const [inventory, setInventory] = useState([])
@@ -26,6 +27,11 @@ const InventoryManagement = ({ onClose }) => {
     quantity: 0
   })
 
+  // Role and stock tracking controls
+  const { user: currentUser } = useAuth()
+  const canEdit = currentUser?.role === 'supervisor' || currentUser?.role === 'admin'
+  const [showLowStock, setShowLowStock] = useState(false)
+  const [lowStockThreshold, setLowStockThreshold] = useState(10)
   useEffect(() => {
     loadInventory()
     loadCategories()
@@ -109,7 +115,9 @@ const InventoryManagement = ({ onClose }) => {
   }
 
   const handleDeleteItem = async (item) => {
+    logActivity('inventory_delete_clicked', { item_id: item.item_id })
     if (!window.confirm(`Are you sure you want to delete "${item.item_name}"?`)) {
+      logActivity('inventory_delete_cancelled', { item_id: item.item_id })
       return
     }
 
@@ -129,6 +137,7 @@ const InventoryManagement = ({ onClose }) => {
   }
 
   const openEditModal = (item) => {
+    logActivity('inventory_edit_modal_open', { item_id: item.item_id })
     setCurrentItem(item)
     setFormData({
       item_name: item.item_name,
@@ -144,6 +153,43 @@ const InventoryManagement = ({ onClose }) => {
     setCurrentItem(null)
     setFormData({ item_name: '', category: '', quantity: 0 })
     setError('')
+    logActivity('inventory_modal_closed', {})
+  }
+
+  const displayedInventory = showLowStock 
+    ? inventory.filter((i) => Number(i.quantity) < Number(lowStockThreshold)) 
+    : inventory
+
+  const exportInventoryCSV = () => {
+    const headers = ['Item Name', 'Category', 'Quantity', 'Last Updated']
+    const rows = displayedInventory.map((item) => [
+      item.item_name,
+      item.category || '',
+      item.quantity,
+      item.last_updated ? new Date(item.last_updated).toISOString() : ''
+    ])
+
+    const csvContent = [headers, ...rows]
+      .map((row) => row.map((val) => `"${String(val).replace(/"/g, '""')}"`).join(','))
+      .join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = 'inventory_export.csv'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+
+    logActivity('inventory_export_csv', {
+      count: displayedInventory.length,
+      category: selectedCategory || null,
+      searchTerm: searchTerm || null,
+      showLowStock,
+      lowStockThreshold
+    })
   }
 
   return (
@@ -165,13 +211,13 @@ const InventoryManagement = ({ onClose }) => {
             type="text"
             placeholder="🔍 Search items..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => { setSearchTerm(e.target.value); logActivity('inventory_search_changed', { searchTerm: e.target.value }) }}
             className="search-input"
           />
           
           <select
             value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
+            onChange={(e) => { setSelectedCategory(e.target.value); logActivity('inventory_category_filter_changed', { category: e.target.value }) }}
             className="category-filter"
           >
             <option value="">All Categories</option>
@@ -179,13 +225,43 @@ const InventoryManagement = ({ onClose }) => {
               <option key={idx} value={cat}>{cat}</option>
             ))}
           </select>
+
+          <label className="low-stock-toggle" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <input
+              type="checkbox"
+              checked={showLowStock}
+              onChange={(e) => { setShowLowStock(e.target.checked); logActivity('inventory_low_stock_toggle', { enabled: e.target.checked }) }}
+            />
+            <span>Show low stock only</span>
+          </label>
+
+          {showLowStock && (
+            <input
+              type="number"
+              min="1"
+              value={lowStockThreshold}
+              onChange={(e) => { setLowStockThreshold(Number(e.target.value)); logActivity('inventory_low_stock_threshold_changed', { threshold: Number(e.target.value) }) }}
+              className="threshold-input"
+              placeholder="Threshold"
+              style={{ width: '110px' }}
+            />
+          )}
         </div>
 
+        {canEdit && (
+          <button 
+            onClick={() => { logActivity('inventory_add_modal_open', {}); setShowAddModal(true) }} 
+            className="btn btn-primary"
+          >
+            + Add New Item
+          </button>
+        )}
         <button 
-          onClick={() => setShowAddModal(true)} 
-          className="btn btn-primary"
+          onClick={exportInventoryCSV} 
+          className="btn btn-secondary"
+          style={{ marginLeft: '8px' }}
         >
-          + Add New Item
+          ⬇️ Export CSV
         </button>
       </div>
 
@@ -205,19 +281,19 @@ const InventoryManagement = ({ onClose }) => {
               </tr>
             </thead>
             <tbody>
-              {inventory.length === 0 ? (
+              {displayedInventory.length === 0 ? (
                 <tr>
                   <td colSpan="5" className="no-data">No inventory items found</td>
                 </tr>
               ) : (
-                inventory.map((item) => (
+                displayedInventory.map((item) => (
                   <tr key={item.item_id}>
                     <td className="item-name">{item.item_name}</td>
                     <td>
                       <span className="category-badge">{item.category || 'N/A'}</span>
                     </td>
                     <td className="quantity">
-                      <span className={item.quantity < 10 ? 'low-stock' : ''}>
+                      <span className={Number(item.quantity) < Number(lowStockThreshold) ? 'low-stock' : ''}>
                         {item.quantity}
                       </span>
                     </td>
@@ -225,20 +301,26 @@ const InventoryManagement = ({ onClose }) => {
                       {item.last_updated ? new Date(item.last_updated).toLocaleDateString() : 'N/A'}
                     </td>
                     <td className="actions">
-                      <button 
-                        onClick={() => openEditModal(item)}
-                        className="btn-icon btn-edit"
-                        title="Edit"
-                      >
-                        ✏️
-                      </button>
-                      <button 
-                        onClick={() => handleDeleteItem(item)}
-                        className="btn-icon btn-delete"
-                        title="Delete"
-                      >
-                        🗑️
-                      </button>
+                      {canEdit ? (
+                        <>
+                          <button 
+                            onClick={() => openEditModal(item)}
+                            className="btn-icon btn-edit"
+                            title="Edit"
+                          >
+                            ✏️
+                          </button>
+                          <button 
+                            onClick={() => handleDeleteItem(item)}
+                            className="btn-icon btn-delete"
+                            title="Delete"
+                          >
+                            🗑️
+                          </button>
+                        </>
+                      ) : (
+                        <span className="no-actions">View only</span>
+                      )}
                     </td>
                   </tr>
                 ))
