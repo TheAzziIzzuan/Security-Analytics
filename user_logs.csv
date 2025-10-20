@@ -1,47 +1,4 @@
-1,4,export,export performed on /dashboard,/dashboard,192.168.1.159,2025-10-10 05:16:06,session_1,Mozilla/5.0,Singapore,0,data_access
-2,4,export,export performed on /dashboard,/dashboard,192.168.1.186,2025-10-10 05:20:36,session_1,Mozilla/5.0,Singapore,0,ui_event
-3,4,click,click performed on /orders,/orders,192.168.1.23,2025-10-10 05:11:01,session_1,Mozilla/5.0,Singapore,1,auth
-4,4,click,click performed on /inventory,/inventory,192.168.1.44,2025-10-10 04:44:12,session_1,Mozilla/5.0,Singapore,0,auth
-5,6,export,export performed on /inventory,/inventory,192.168.1.146,2025-10-10 06:55:53,session_2,Mozilla/5.0,Singapore,0,system
-6,6,login,login performed on /orders,/orders,192.168.1.109,2025-10-10 07:09:09,session_2,Mozilla/5.0,Singapore,0,system
-7,6,logout,logout performed on /dashboard,/dashboard,192.168.1.154,2025-10-10 07:23:03,session_2,Mozilla/5.0,Singapore,1,data_access
-8,6,click,click performed on /dashboard,/dashboard,192.168.1.87,2025-10-10 07:05:23,session_2,Mozilla/5.0,Singapore,0,auth
-9,6,logout,logout performed on /orders,/orders,192.168.1.88,2025-10-10 06:39:53,session_2,Mozilla/5.0,Singapore,0,system
-10,6,export,export performed on /orders,/orders,192.168.1.127,2025-10-10 07:05:48,session_2,Mozilla/5.0,Singapore,0,ui_event
-11,7,navigate,navigate performed on /dashboard,/dashboard,192.168.1.20,2025-10-10 05:44:21,session_3,Mozilla/5.0,Singapore,0,auth
-12,7,export,export performed on /inventory,/inventory,192.168.1.3,2025-10-10 05:41:19,session_3,Mozilla/5.0,Singapore,0,system
-13,7,navigate,navigate performed on /inventory,/inventory,192.168.1.34,2025-10-10 05:47:47,session_3,Mozilla/5.0,Singapore,0,system
-14,7,export,export performed on /orders,/orders,192.168.1.107,2025-10-10 05:44:17,session_3,Mozilla/5.0,Singapore,0,auth
-15,7,login,login performed on /inventory,/inventory,192.168.1.60,2025-10-10 05:41:56,session_3,Mozilla/5.0,Singapore,0,system
-16,4,logout,logout performed on /inventory,/inventory,192.168.1.10,2025-10-10 01:29:15,session_4,Mozilla/5.0,Singapore,1,system
-17,4,export,export performed on /inventory,/inventory,192.168.1.93,2025-10-10 01:44:28,session_4,Mozilla/5.0,Singapore,0,system
-18,4,logout,logout performed on /dashboard,/dashboard,192.168.1.98,2025-10-10 01:46:06,session_4,Mozilla/5.0,Singapore,0,ui_event
-19,4,click,click performed on /inventory,/inventory,192.168.1.70,2025-10-10 01:30:38,session_4,Mozilla/5.0,Singapore,0,ui_event
-20,3,navigate,navigate performed on /dashboard,/dashboard,192.168.1.58,2025-10-10 03:23:12,session_5,Mozilla/5.0,Singapore,0,ui_event
-21,3,edit,edit performed on /inventory,/inventory,192.168.1.158,2025-10-10 03:14:23,session_5,Mozilla/5.0,Singapore,1,data_access
-22,3,export,export performed on /orders,/orders,192.168.1.143,2025-10-10 03:25:00,session_5,Mozilla/5.0,Singapore,0,system
-23,3,click,click performed on /dashboard,/dashboard,192.168.1.52,2025-10-10 03:40:38,session_5,Mozilla/5.0,Singapore,0,system
-24,1,logout,logout performed on /inventory,/inventory,192.168.1.168,2025-10-10 04:35:55,session_6,Mozilla/5.0,Singapore,0,data_access
-25,1,edit,edit performed on /inventory,/inventory,192.168.1.37,2025-10-10 05:08:15,session_6,Mozilla/5.0,Singapore,0,auth
-26,1,login,login performed on /orders,/orders,192.168.1.79,2025-10-10 04:57:48,session_6,Mozilla/5.0,Singapore,0,system
-27,6,export,export performed on /inventory,/inventory,192.168.1.114,2025-10-10 01:10:48,session_7,Mozilla/5.0,Singapore,1,ui_event
-28,6,export,export performed on /orders,/orders,192.168.1.170,2025-10-10 00:42:34,session_7,Mozilla/5.0,Singapore,0,auth
-29,6,export,export performed on /inventory,/inventory,192.168.1.153,2025-10-10 00:50:03,session_7,Mozilla/5.0,Singapore,0,ui_event
-30,5,login,login performed on /inventory,/inventory,192.168.1.174,2025-10-10 00:18:29,session_8,Mozilla/5.0,Singapore,0,system
-31,5,navigate,navigate performed on /dashboard,/dashboard,192.168.1.131,2025-10-10 00:13:51,session_8,Mozilla/5.0,Singapore,0,ui_event
-32,5,logout,logout performed on /orders,/orders,192.168.1.28,2025-10-10 00:12:36,session_8,Mozilla/5.0,Singapore,0,ui_event
-33,5,export,export performed on /dashboard,/dashboard,192.168.1.129,2025-10-10 00:20:38,session_8,Mozilla/5.0,Singapore,0,data_access
-34,2,navigate,navigate performed on /dashboard,/dashboard,192.168.1.116,2025-10-10 04:54:05,session_9,Mozilla/5.0,Singapore,0,system
-35,2,edit,edit performed on /inventory,/inventory,192.168.1.179,2025-10-10 04:56:05,session_9,Mozilla/5.0,Singapore,0,ui_event
-36,2,logout,logout performed on /orders,/orders,192.168.1.138,2025-10-10 05:19:26,session_9,Mozilla/5.0,Singapore,0,auth
-37,1,logout,logout performed on /orders,/orders,192.168.1.181,2025-10-10 07:05:01,session_10,Mozilla/5.0,Singapore,0,ui_event
-38,1,click,click performed on /orders,/orders,192.168.1.97,2025-10-10 07:25:00,session_10,Mozilla/5.0,Singapore,1,data_access
-39,1,edit,edit performed on /dashboard,/dashboard,192.168.1.95,2025-10-10 07:26:01,session_10,Mozilla/5.0,Singapore,0,auth
-40,1,navigate,navigate performed on /dashboard,/dashboard,192.168.1.67,2025-10-10 07:07:31,session_10,Mozilla/5.0,Singapore,0,auth
-41,1,navigate,navigate performed on /dashboard,/dashboard,192.168.1.58,2025-10-10 07:08:27,session_10,Mozilla/5.0,Singapore,0,auth
-42,1,navigate,navigate performed on /dashboard,/dashboard,192.168.1.59,2025-10-10 07:38:33,session_10,Mozilla/5.0,Singapore,1,auth
-43,1,logout,logout performed on /inventory,/inventory,192.168.1.5,2025-10-10 07:25:07,session_10,Mozilla/5.0,Singapore,1,data_access
-44,1,logout,logout performed on /inventory,/inventory,192.168.1.149,2025-10-10 07:29:29,session_10,Mozilla/5.0,Singapore,0,data_access
+log_id,user_id,action_type,action_detail,page_url,ip_address,log_timestamp,session_id,user_agent,geo_location,is_flagged,log_type
 45,1,Login,Action on auth,http://localhost:5000/api/auth/login,172.18.0.1,2025-10-19 14:28:25,5cc9e0b0-c476-4b49-a99b-7f3bc561a33c,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
 46,1,View,Action on orders,http://localhost:5000/api/orders/,172.18.0.1,2025-10-19 14:28:35,5cc9e0b0-c476-4b49-a99b-7f3bc561a33c,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
 47,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-19 14:28:35,5cc9e0b0-c476-4b49-a99b-7f3bc561a33c,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
@@ -296,33 +253,6 @@
 296,1,Login,seeded Login action,/api/auth/login,10.20.213.233,2025-10-11 19:51:49,seed_1_8_6046_0018,SeedAgent/1.0,NULL,0,ui_event
 297,1,LoginFail,seeded LoginFail action,/api/auth/login,10.20.133.171,2025-10-11 00:35:24,seed_1_8_6046_0019,SeedAgent/1.0,NULL,0,ui_event
 298,1,View,seeded View action,/inventory,10.20.57.3,2025-10-11 09:25:34,seed_1_8_6046_0020,SeedAgent/1.0,NULL,0,ui_event
-299,1,Navigate,seeded Navigate action,/dashboard,10.20.110.101,2025-10-10 15:04:44,seed_1_9_7236_0000,SeedAgent/1.0,NULL,0,ui_event
-300,1,Export,seeded Export action,/export/inventory,10.20.195.204,2025-10-10 09:41:23,seed_1_9_7236_0001,SeedAgent/1.0,NULL,0,ui_event
-301,1,Edit,seeded Edit action,/inventory,10.20.113.142,2025-10-10 14:14:46,seed_1_9_7236_0002,SeedAgent/1.0,NULL,0,ui_event
-302,1,Navigate,seeded Navigate action,/dashboard,10.20.214.186,2025-10-10 21:36:16,seed_1_9_7236_0003,SeedAgent/1.0,NULL,0,ui_event
-303,1,Click,seeded Click action,/dashboard,10.20.194.239,2025-10-10 16:25:32,seed_1_9_7236_0004,SeedAgent/1.0,NULL,0,ui_event
-304,1,Navigate,seeded Navigate action,/dashboard,10.20.114.211,2025-10-10 20:03:34,seed_1_9_7236_0005,SeedAgent/1.0,NULL,0,ui_event
-305,1,View,seeded View action,/inventory,10.20.71.177,2025-10-10 05:55:01,seed_1_9_7236_0006,SeedAgent/1.0,NULL,0,ui_event
-306,1,Edit,seeded Edit action,/inventory,10.20.207.174,2025-10-10 20:42:52,seed_1_9_7236_0007,SeedAgent/1.0,NULL,0,ui_event
-307,1,Login,seeded Login action,/api/auth/login,10.20.55.219,2025-10-10 01:51:33,seed_1_9_7236_0008,SeedAgent/1.0,NULL,0,ui_event
-308,1,Edit,seeded Edit action,/inventory,10.20.159.81,2025-10-10 15:51:58,seed_1_9_7236_0009,SeedAgent/1.0,NULL,0,ui_event
-309,1,Export,seeded Export action,/export/inventory,10.20.73.20,2025-10-10 11:31:58,seed_1_9_7236_0010,SeedAgent/1.0,NULL,0,ui_event
-310,1,Navigate,seeded Navigate action,/dashboard,10.20.208.123,2025-10-10 06:39:32,seed_1_9_7236_0011,SeedAgent/1.0,NULL,0,ui_event
-311,1,View,seeded View action,/inventory,10.20.83.0,2025-10-10 05:49:47,seed_1_9_7236_0012,SeedAgent/1.0,NULL,0,ui_event
-312,1,View,seeded View action,/inventory,10.20.74.3,2025-10-10 20:14:49,seed_1_9_7236_0013,SeedAgent/1.0,NULL,0,ui_event
-313,1,LoginFail,seeded LoginFail action,/api/auth/login,10.20.239.221,2025-10-10 16:29:33,seed_1_9_7236_0014,SeedAgent/1.0,NULL,0,ui_event
-314,1,Export,seeded Export action,/export/inventory,10.20.236.194,2025-10-10 09:00:13,seed_1_9_7236_0015,SeedAgent/1.0,NULL,0,ui_event
-315,1,Login,seeded Login action,/api/auth/login,10.20.193.238,2025-10-10 00:21:28,seed_1_9_7236_0016,SeedAgent/1.0,NULL,0,ui_event
-316,1,Navigate,seeded Navigate action,/dashboard,10.20.2.209,2025-10-10 17:26:19,seed_1_9_7236_0017,SeedAgent/1.0,NULL,0,ui_event
-317,1,Click,seeded Click action,/dashboard,10.20.28.126,2025-10-10 00:27:57,seed_1_9_7236_0018,SeedAgent/1.0,NULL,0,ui_event
-318,1,Click,seeded Click action,/dashboard,10.20.44.125,2025-10-10 19:15:45,seed_1_9_7236_0019,SeedAgent/1.0,NULL,0,ui_event
-319,1,Login,seeded Login action,/api/auth/login,10.20.106.9,2025-10-10 17:22:03,seed_1_9_7236_0020,SeedAgent/1.0,NULL,0,ui_event
-320,1,Edit,seeded Edit action,/inventory,10.20.99.113,2025-10-10 04:48:48,seed_1_9_7236_0021,SeedAgent/1.0,NULL,0,ui_event
-321,1,LoginFail,seeded LoginFail action,/api/auth/login,10.20.127.29,2025-10-10 04:15:56,seed_1_9_7236_0022,SeedAgent/1.0,NULL,0,ui_event
-322,1,Login,seeded Login action,/api/auth/login,10.20.131.137,2025-10-10 17:16:14,seed_1_9_7236_0023,SeedAgent/1.0,NULL,0,ui_event
-323,1,Click,seeded Click action,/dashboard,10.20.108.234,2025-10-10 10:17:10,seed_1_9_7236_0024,SeedAgent/1.0,NULL,0,ui_event
-324,1,Navigate,seeded Navigate action,/dashboard,10.20.0.206,2025-10-10 17:15:24,seed_1_9_7236_0025,SeedAgent/1.0,NULL,0,ui_event
-325,1,Click,seeded Click action,/dashboard,10.20.159.138,2025-10-10 21:54:09,seed_1_9_7236_0026,SeedAgent/1.0,NULL,0,ui_event
 326,1,Click,seeded Click action,/dashboard,10.20.179.175,2025-10-09 16:08:29,seed_1_10_7831_0000,SeedAgent/1.0,NULL,0,ui_event
 327,1,Click,seeded Click action,/dashboard,10.20.203.194,2025-10-09 19:25:21,seed_1_10_7831_0001,SeedAgent/1.0,NULL,0,ui_event
 328,1,Navigate,seeded Navigate action,/dashboard,10.20.239.163,2025-10-09 02:29:18,seed_1_10_7831_0002,SeedAgent/1.0,NULL,0,ui_event
@@ -901,32 +831,32 @@
 901,1,Export,seeded Export action,/export/inventory,10.20.101.121,2025-09-20 20:47:37,seed_1_29_8847_0035,SeedAgent/1.0,NULL,0,ui_event
 902,1,Click,seeded Click action,/dashboard,10.20.86.69,2025-09-20 20:01:24,seed_1_29_8847_0036,SeedAgent/1.0,NULL,0,ui_event
 903,2,Edit,seeded Edit action,/inventory,10.20.136.46,2025-10-19 05:11:24,seed_2_0_9904_0000,SeedAgent/1.0,NULL,0,ui_event
-904,2,Click,seeded Click action,/dashboard,10.20.207.33,2025-10-19 17:32:05,seed_2_0_9904_0001,SeedAgent/1.0,NULL,0,ui_event
+904,2,Click,seeded Click action,/dashboard,10.20.207.33,2025-10-19 17:32:05,seed_2_0_9904_0001,SeedAgent/1.0,NULL,1,ui_event
 905,2,LoginFail,seeded LoginFail action,/api/auth/login,10.20.30.89,2025-10-19 02:03:50,seed_2_0_9904_0002,SeedAgent/1.0,NULL,0,ui_event
 906,2,Navigate,seeded Navigate action,/dashboard,10.20.31.165,2025-10-19 07:38:34,seed_2_0_9904_0003,SeedAgent/1.0,NULL,0,ui_event
 907,2,Login,seeded Login action,/api/auth/login,10.20.29.198,2025-10-19 06:22:24,seed_2_0_9904_0004,SeedAgent/1.0,NULL,0,ui_event
 908,2,Export,seeded Export action,/export/inventory,10.20.46.21,2025-10-19 06:58:14,seed_2_0_9904_0005,SeedAgent/1.0,NULL,0,ui_event
 909,2,Edit,seeded Edit action,/inventory,10.20.221.70,2025-10-19 02:39:50,seed_2_0_9904_0006,SeedAgent/1.0,NULL,0,ui_event
 910,2,Export,seeded Export action,/export/inventory,10.20.163.184,2025-10-19 13:07:55,seed_2_0_9904_0007,SeedAgent/1.0,NULL,0,ui_event
-911,2,Export,seeded Export action,/export/inventory,10.20.8.29,2025-10-19 16:28:41,seed_2_0_9904_0008,SeedAgent/1.0,NULL,0,ui_event
+911,2,Export,seeded Export action,/export/inventory,10.20.8.29,2025-10-19 16:28:41,seed_2_0_9904_0008,SeedAgent/1.0,NULL,1,ui_event
 912,2,Navigate,seeded Navigate action,/dashboard,10.20.89.79,2025-10-19 04:21:17,seed_2_0_9904_0009,SeedAgent/1.0,NULL,0,ui_event
 913,2,Navigate,seeded Navigate action,/dashboard,10.20.131.206,2025-10-19 14:56:14,seed_2_0_9904_0010,SeedAgent/1.0,NULL,0,ui_event
-914,2,Export,seeded Export action,/export/inventory,10.20.212.21,2025-10-19 18:45:29,seed_2_0_9904_0011,SeedAgent/1.0,NULL,0,ui_event
-915,2,Export,seeded Export action,/export/inventory,10.20.238.226,2025-10-19 16:06:32,seed_2_0_9904_0012,SeedAgent/1.0,NULL,0,ui_event
-916,2,Export,seeded Export action,/export/inventory,10.20.78.215,2025-10-19 21:59:00,seed_2_0_9904_0013,SeedAgent/1.0,NULL,0,ui_event
-917,2,Navigate,seeded Navigate action,/dashboard,10.20.135.90,2025-10-19 19:31:26,seed_2_0_9904_0014,SeedAgent/1.0,NULL,0,ui_event
-918,2,LoginFail,seeded LoginFail action,/api/auth/login,10.20.146.129,2025-10-19 20:07:17,seed_2_0_9904_0015,SeedAgent/1.0,NULL,0,ui_event
-919,2,Edit,seeded Edit action,/inventory,10.20.193.2,2025-10-19 16:14:07,seed_2_0_9904_0016,SeedAgent/1.0,NULL,0,ui_event
+914,2,Export,seeded Export action,/export/inventory,10.20.212.21,2025-10-19 18:45:29,seed_2_0_9904_0011,SeedAgent/1.0,NULL,1,ui_event
+915,2,Export,seeded Export action,/export/inventory,10.20.238.226,2025-10-19 16:06:32,seed_2_0_9904_0012,SeedAgent/1.0,NULL,1,ui_event
+916,2,Export,seeded Export action,/export/inventory,10.20.78.215,2025-10-19 21:59:00,seed_2_0_9904_0013,SeedAgent/1.0,NULL,1,ui_event
+917,2,Navigate,seeded Navigate action,/dashboard,10.20.135.90,2025-10-19 19:31:26,seed_2_0_9904_0014,SeedAgent/1.0,NULL,1,ui_event
+918,2,LoginFail,seeded LoginFail action,/api/auth/login,10.20.146.129,2025-10-19 20:07:17,seed_2_0_9904_0015,SeedAgent/1.0,NULL,1,ui_event
+919,2,Edit,seeded Edit action,/inventory,10.20.193.2,2025-10-19 16:14:07,seed_2_0_9904_0016,SeedAgent/1.0,NULL,1,ui_event
 920,2,Export,seeded Export action,/export/inventory,10.20.170.45,2025-10-19 02:53:18,seed_2_0_9904_0017,SeedAgent/1.0,NULL,0,ui_event
 921,2,Edit,seeded Edit action,/inventory,10.20.238.124,2025-10-19 11:38:00,seed_2_0_9904_0018,SeedAgent/1.0,NULL,0,ui_event
 922,2,Export,seeded Export action,/export/inventory,10.20.173.19,2025-10-19 12:19:31,seed_2_0_9904_0019,SeedAgent/1.0,NULL,0,ui_event
-923,2,Click,seeded Click action,/dashboard,10.20.185.44,2025-10-19 21:21:02,seed_2_0_9904_0020,SeedAgent/1.0,NULL,0,ui_event
+923,2,Click,seeded Click action,/dashboard,10.20.185.44,2025-10-19 21:21:02,seed_2_0_9904_0020,SeedAgent/1.0,NULL,1,ui_event
 924,2,Export,seeded Export action,/export/inventory,10.20.200.133,2025-10-19 12:55:37,seed_2_0_9904_0021,SeedAgent/1.0,NULL,0,ui_event
-925,2,Click,seeded Click action,/dashboard,10.20.156.41,2025-10-19 16:37:44,seed_2_0_9904_0022,SeedAgent/1.0,NULL,0,ui_event
+925,2,Click,seeded Click action,/dashboard,10.20.156.41,2025-10-19 16:37:44,seed_2_0_9904_0022,SeedAgent/1.0,NULL,1,ui_event
 926,2,View,seeded View action,/inventory,10.20.99.237,2025-10-19 00:40:36,seed_2_0_9904_0023,SeedAgent/1.0,NULL,0,ui_event
 927,2,Export,seeded Export action,/export/inventory,10.20.153.132,2025-10-19 13:12:45,seed_2_0_9904_0024,SeedAgent/1.0,NULL,0,ui_event
 928,2,Edit,seeded Edit action,/inventory,10.20.50.99,2025-10-19 13:07:28,seed_2_0_9904_0025,SeedAgent/1.0,NULL,0,ui_event
-929,2,Navigate,seeded Navigate action,/dashboard,10.20.133.204,2025-10-19 23:29:08,seed_2_0_9904_0026,SeedAgent/1.0,NULL,0,ui_event
+929,2,Navigate,seeded Navigate action,/dashboard,10.20.133.204,2025-10-19 23:29:08,seed_2_0_9904_0026,SeedAgent/1.0,NULL,1,ui_event
 930,2,Login,seeded Login action,/api/auth/login,10.20.62.25,2025-10-18 01:37:52,seed_2_1_3538_0000,SeedAgent/1.0,NULL,0,ui_event
 931,2,Export,seeded Export action,/export/inventory,10.20.200.224,2025-10-18 09:58:33,seed_2_1_3538_0001,SeedAgent/1.0,NULL,0,ui_event
 932,2,LoginFail,seeded LoginFail action,/api/auth/login,10.20.195.206,2025-10-18 01:38:19,seed_2_1_3538_0002,SeedAgent/1.0,NULL,0,ui_event
@@ -1150,41 +1080,6 @@
 1150,2,Navigate,seeded Navigate action,/dashboard,10.20.44.186,2025-10-11 09:08:39,seed_2_8_4909_0035,SeedAgent/1.0,NULL,0,ui_event
 1151,2,Click,seeded Click action,/dashboard,10.20.169.121,2025-10-11 08:12:55,seed_2_8_4909_0036,SeedAgent/1.0,NULL,0,ui_event
 1152,2,Navigate,seeded Navigate action,/dashboard,10.20.119.203,2025-10-11 13:09:00,seed_2_8_4909_0037,SeedAgent/1.0,NULL,0,ui_event
-1153,2,Export,seeded Export action,/export/inventory,10.20.85.178,2025-10-10 08:22:56,seed_2_9_2102_0000,SeedAgent/1.0,NULL,0,ui_event
-1154,2,Export,seeded Export action,/export/inventory,10.20.239.7,2025-10-10 23:38:57,seed_2_9_2102_0001,SeedAgent/1.0,NULL,0,ui_event
-1155,2,LoginFail,seeded LoginFail action,/api/auth/login,10.20.5.2,2025-10-10 16:46:30,seed_2_9_2102_0002,SeedAgent/1.0,NULL,0,ui_event
-1156,2,View,seeded View action,/inventory,10.20.157.121,2025-10-10 22:14:37,seed_2_9_2102_0003,SeedAgent/1.0,NULL,0,ui_event
-1157,2,Navigate,seeded Navigate action,/dashboard,10.20.177.202,2025-10-10 06:49:24,seed_2_9_2102_0004,SeedAgent/1.0,NULL,0,ui_event
-1158,2,View,seeded View action,/inventory,10.20.57.206,2025-10-10 10:39:52,seed_2_9_2102_0005,SeedAgent/1.0,NULL,0,ui_event
-1159,2,Navigate,seeded Navigate action,/dashboard,10.20.36.142,2025-10-10 09:17:30,seed_2_9_2102_0006,SeedAgent/1.0,NULL,0,ui_event
-1160,2,Navigate,seeded Navigate action,/dashboard,10.20.112.221,2025-10-10 19:17:21,seed_2_9_2102_0007,SeedAgent/1.0,NULL,0,ui_event
-1161,2,Click,seeded Click action,/dashboard,10.20.223.168,2025-10-10 07:35:49,seed_2_9_2102_0008,SeedAgent/1.0,NULL,0,ui_event
-1162,2,Export,seeded Export action,/export/inventory,10.20.55.172,2025-10-10 11:24:30,seed_2_9_2102_0009,SeedAgent/1.0,NULL,0,ui_event
-1163,2,View,seeded View action,/inventory,10.20.67.45,2025-10-10 09:41:14,seed_2_9_2102_0010,SeedAgent/1.0,NULL,0,ui_event
-1164,2,LoginFail,seeded LoginFail action,/api/auth/login,10.20.100.63,2025-10-10 22:41:14,seed_2_9_2102_0011,SeedAgent/1.0,NULL,0,ui_event
-1165,2,Login,seeded Login action,/api/auth/login,10.20.124.229,2025-10-10 13:04:22,seed_2_9_2102_0012,SeedAgent/1.0,NULL,0,ui_event
-1166,2,Click,seeded Click action,/dashboard,10.20.152.93,2025-10-10 06:18:27,seed_2_9_2102_0013,SeedAgent/1.0,NULL,0,ui_event
-1167,2,Login,seeded Login action,/api/auth/login,10.20.3.0,2025-10-10 00:38:16,seed_2_9_2102_0014,SeedAgent/1.0,NULL,0,ui_event
-1168,2,View,seeded View action,/inventory,10.20.56.167,2025-10-10 19:52:16,seed_2_9_2102_0015,SeedAgent/1.0,NULL,0,ui_event
-1169,2,Export,seeded Export action,/export/inventory,10.20.203.169,2025-10-10 20:12:50,seed_2_9_2102_0016,SeedAgent/1.0,NULL,0,ui_event
-1170,2,View,seeded View action,/inventory,10.20.39.83,2025-10-10 19:49:43,seed_2_9_2102_0017,SeedAgent/1.0,NULL,0,ui_event
-1171,2,Click,seeded Click action,/dashboard,10.20.23.239,2025-10-10 03:56:52,seed_2_9_2102_0018,SeedAgent/1.0,NULL,0,ui_event
-1172,2,Export,seeded Export action,/export/inventory,10.20.98.130,2025-10-10 12:02:42,seed_2_9_2102_0019,SeedAgent/1.0,NULL,0,ui_event
-1173,2,Navigate,seeded Navigate action,/dashboard,10.20.152.171,2025-10-10 19:43:16,seed_2_9_2102_0020,SeedAgent/1.0,NULL,0,ui_event
-1174,2,Export,seeded Export action,/export/inventory,10.20.233.66,2025-10-10 04:41:35,seed_2_9_2102_0021,SeedAgent/1.0,NULL,0,ui_event
-1175,2,Navigate,seeded Navigate action,/dashboard,10.20.38.63,2025-10-10 12:19:48,seed_2_9_2102_0022,SeedAgent/1.0,NULL,0,ui_event
-1176,2,Edit,seeded Edit action,/inventory,10.20.96.206,2025-10-10 09:07:54,seed_2_9_2102_0023,SeedAgent/1.0,NULL,0,ui_event
-1177,2,Login,seeded Login action,/api/auth/login,10.20.47.70,2025-10-10 21:30:10,seed_2_9_2102_0024,SeedAgent/1.0,NULL,0,ui_event
-1178,2,Edit,seeded Edit action,/inventory,10.20.200.170,2025-10-10 11:48:05,seed_2_9_2102_0025,SeedAgent/1.0,NULL,0,ui_event
-1179,2,Login,seeded Login action,/api/auth/login,10.20.76.78,2025-10-10 02:11:13,seed_2_9_2102_0026,SeedAgent/1.0,NULL,0,ui_event
-1180,2,Export,seeded Export action,/export/inventory,10.20.22.43,2025-10-10 10:16:53,seed_2_9_2102_0027,SeedAgent/1.0,NULL,0,ui_event
-1181,2,Export,seeded Export action,/export/inventory,10.20.222.231,2025-10-10 13:21:56,seed_2_9_2102_0028,SeedAgent/1.0,NULL,0,ui_event
-1182,2,Login,seeded Login action,/api/auth/login,10.20.109.80,2025-10-10 07:36:01,seed_2_9_2102_0029,SeedAgent/1.0,NULL,0,ui_event
-1183,2,Click,seeded Click action,/dashboard,10.20.158.180,2025-10-10 12:20:03,seed_2_9_2102_0030,SeedAgent/1.0,NULL,0,ui_event
-1184,2,Export,seeded Export action,/export/inventory,10.20.193.38,2025-10-10 15:02:36,seed_2_9_2102_0031,SeedAgent/1.0,NULL,0,ui_event
-1185,2,Click,seeded Click action,/dashboard,10.20.176.138,2025-10-10 08:50:41,seed_2_9_2102_0032,SeedAgent/1.0,NULL,0,ui_event
-1186,2,Export,seeded Export action,/export/inventory,10.20.39.219,2025-10-10 15:17:10,seed_2_9_2102_0033,SeedAgent/1.0,NULL,0,ui_event
-1187,2,Login,seeded Login action,/api/auth/login,10.20.204.102,2025-10-10 14:42:26,seed_2_9_2102_0034,SeedAgent/1.0,NULL,0,ui_event
 1188,2,Click,seeded Click action,/dashboard,10.20.31.211,2025-10-09 14:16:21,seed_2_10_6020_0000,SeedAgent/1.0,NULL,0,ui_event
 1189,2,Login,seeded Login action,/api/auth/login,10.20.206.43,2025-10-09 08:58:17,seed_2_10_6020_0001,SeedAgent/1.0,NULL,0,ui_event
 1190,2,Click,seeded Click action,/dashboard,10.20.67.63,2025-10-09 01:06:39,seed_2_10_6020_0002,SeedAgent/1.0,NULL,0,ui_event
@@ -2105,44 +2000,6 @@
 2105,3,Login,seeded Login action,/api/auth/login,10.20.236.45,2025-10-11 05:51:16,seed_3_8_3013_0030,SeedAgent/1.0,NULL,0,ui_event
 2106,3,View,seeded View action,/inventory,10.20.12.8,2025-10-11 09:46:45,seed_3_8_3013_0031,SeedAgent/1.0,NULL,0,ui_event
 2107,3,Login,seeded Login action,/api/auth/login,10.20.228.178,2025-10-11 00:04:32,seed_3_8_3013_0032,SeedAgent/1.0,NULL,0,ui_event
-2108,3,Edit,seeded Edit action,/inventory,10.20.112.6,2025-10-10 18:35:27,seed_3_9_0766_0000,SeedAgent/1.0,NULL,0,ui_event
-2109,3,Export,seeded Export action,/export/inventory,10.20.150.106,2025-10-10 13:30:46,seed_3_9_0766_0001,SeedAgent/1.0,NULL,0,ui_event
-2110,3,Click,seeded Click action,/dashboard,10.20.207.44,2025-10-10 09:04:41,seed_3_9_0766_0002,SeedAgent/1.0,NULL,0,ui_event
-2111,3,Click,seeded Click action,/dashboard,10.20.159.218,2025-10-10 03:16:13,seed_3_9_0766_0003,SeedAgent/1.0,NULL,0,ui_event
-2112,3,Navigate,seeded Navigate action,/dashboard,10.20.194.177,2025-10-10 02:27:34,seed_3_9_0766_0004,SeedAgent/1.0,NULL,0,ui_event
-2113,3,Click,seeded Click action,/dashboard,10.20.186.129,2025-10-10 02:45:44,seed_3_9_0766_0005,SeedAgent/1.0,NULL,0,ui_event
-2114,3,Click,seeded Click action,/dashboard,10.20.196.134,2025-10-10 04:17:38,seed_3_9_0766_0006,SeedAgent/1.0,NULL,0,ui_event
-2115,3,Click,seeded Click action,/dashboard,10.20.46.197,2025-10-10 01:06:00,seed_3_9_0766_0007,SeedAgent/1.0,NULL,0,ui_event
-2116,3,Navigate,seeded Navigate action,/dashboard,10.20.129.239,2025-10-10 05:34:14,seed_3_9_0766_0008,SeedAgent/1.0,NULL,0,ui_event
-2117,3,Click,seeded Click action,/dashboard,10.20.86.23,2025-10-10 21:35:18,seed_3_9_0766_0009,SeedAgent/1.0,NULL,0,ui_event
-2118,3,Navigate,seeded Navigate action,/dashboard,10.20.108.15,2025-10-10 17:35:41,seed_3_9_0766_0010,SeedAgent/1.0,NULL,0,ui_event
-2119,3,View,seeded View action,/inventory,10.20.30.198,2025-10-10 14:23:42,seed_3_9_0766_0011,SeedAgent/1.0,NULL,0,ui_event
-2120,3,Export,seeded Export action,/export/inventory,10.20.106.40,2025-10-10 08:22:19,seed_3_9_0766_0012,SeedAgent/1.0,NULL,0,ui_event
-2121,3,Navigate,seeded Navigate action,/dashboard,10.20.190.183,2025-10-10 01:37:10,seed_3_9_0766_0013,SeedAgent/1.0,NULL,0,ui_event
-2122,3,Navigate,seeded Navigate action,/dashboard,10.20.33.6,2025-10-10 21:20:26,seed_3_9_0766_0014,SeedAgent/1.0,NULL,0,ui_event
-2123,3,Export,seeded Export action,/export/inventory,10.20.112.181,2025-10-10 12:38:27,seed_3_9_0766_0015,SeedAgent/1.0,NULL,0,ui_event
-2124,3,Click,seeded Click action,/dashboard,10.20.7.60,2025-10-10 15:14:01,seed_3_9_0766_0016,SeedAgent/1.0,NULL,0,ui_event
-2125,3,LoginFail,seeded LoginFail action,/api/auth/login,10.20.187.178,2025-10-10 01:15:45,seed_3_9_0766_0017,SeedAgent/1.0,NULL,0,ui_event
-2126,3,Click,seeded Click action,/dashboard,10.20.9.75,2025-10-10 15:09:01,seed_3_9_0766_0018,SeedAgent/1.0,NULL,0,ui_event
-2127,3,Navigate,seeded Navigate action,/dashboard,10.20.238.45,2025-10-10 06:19:18,seed_3_9_0766_0019,SeedAgent/1.0,NULL,0,ui_event
-2128,3,View,seeded View action,/inventory,10.20.49.92,2025-10-10 05:09:34,seed_3_9_0766_0020,SeedAgent/1.0,NULL,0,ui_event
-2129,3,Click,seeded Click action,/dashboard,10.20.17.36,2025-10-10 09:38:03,seed_3_9_0766_0021,SeedAgent/1.0,NULL,0,ui_event
-2130,3,Navigate,seeded Navigate action,/dashboard,10.20.178.212,2025-10-10 06:38:09,seed_3_9_0766_0022,SeedAgent/1.0,NULL,0,ui_event
-2131,3,LoginFail,seeded LoginFail action,/api/auth/login,10.20.9.51,2025-10-10 07:48:14,seed_3_9_0766_0023,SeedAgent/1.0,NULL,0,ui_event
-2132,3,View,seeded View action,/inventory,10.20.193.151,2025-10-10 03:13:39,seed_3_9_0766_0024,SeedAgent/1.0,NULL,0,ui_event
-2133,3,Export,seeded Export action,/export/inventory,10.20.177.78,2025-10-10 18:57:50,seed_3_9_0766_0025,SeedAgent/1.0,NULL,0,ui_event
-2134,3,Navigate,seeded Navigate action,/dashboard,10.20.94.136,2025-10-10 03:11:22,seed_3_9_0766_0026,SeedAgent/1.0,NULL,0,ui_event
-2135,3,Export,seeded Export action,/export/inventory,10.20.222.216,2025-10-10 13:54:09,seed_3_9_0766_0027,SeedAgent/1.0,NULL,0,ui_event
-2136,3,Export,seeded Export action,/export/inventory,10.20.109.118,2025-10-10 22:14:59,seed_3_9_0766_0028,SeedAgent/1.0,NULL,0,ui_event
-2137,3,LoginFail,seeded LoginFail action,/api/auth/login,10.20.0.194,2025-10-10 01:36:02,seed_3_9_0766_0029,SeedAgent/1.0,NULL,0,ui_event
-2138,3,Login,seeded Login action,/api/auth/login,10.20.190.147,2025-10-10 18:49:29,seed_3_9_0766_0030,SeedAgent/1.0,NULL,0,ui_event
-2139,3,Export,seeded Export action,/export/inventory,10.20.23.138,2025-10-10 15:18:19,seed_3_9_0766_0031,SeedAgent/1.0,NULL,0,ui_event
-2140,3,Navigate,seeded Navigate action,/dashboard,10.20.65.179,2025-10-10 04:58:03,seed_3_9_0766_0032,SeedAgent/1.0,NULL,0,ui_event
-2141,3,View,seeded View action,/inventory,10.20.226.168,2025-10-10 08:07:22,seed_3_9_0766_0033,SeedAgent/1.0,NULL,0,ui_event
-2142,3,Export,seeded Export action,/export/inventory,10.20.135.202,2025-10-10 07:48:09,seed_3_9_0766_0034,SeedAgent/1.0,NULL,0,ui_event
-2143,3,Navigate,seeded Navigate action,/dashboard,10.20.220.69,2025-10-10 02:22:21,seed_3_9_0766_0035,SeedAgent/1.0,NULL,0,ui_event
-2144,3,Export,seeded Export action,/export/inventory,10.20.192.72,2025-10-10 13:45:12,seed_3_9_0766_0036,SeedAgent/1.0,NULL,0,ui_event
-2145,3,Login,seeded Login action,/api/auth/login,10.20.116.185,2025-10-10 13:13:56,seed_3_9_0766_0037,SeedAgent/1.0,NULL,0,ui_event
 2146,3,Click,seeded Click action,/dashboard,10.20.94.59,2025-10-09 05:40:28,seed_3_10_6935_0000,SeedAgent/1.0,NULL,0,ui_event
 2147,3,Login,seeded Login action,/api/auth/login,10.20.212.134,2025-10-09 14:55:06,seed_3_10_6935_0001,SeedAgent/1.0,NULL,0,ui_event
 2148,3,LoginFail,seeded LoginFail action,/api/auth/login,10.20.201.5,2025-10-09 01:21:01,seed_3_10_6935_0002,SeedAgent/1.0,NULL,0,ui_event
@@ -2709,3 +2566,117 @@
 2709,3,LoginFail,seeded LoginFail action,/api/auth/login,10.20.85.213,2025-09-20 23:05:55,seed_3_29_3254_0020,SeedAgent/1.0,NULL,0,ui_event
 2710,3,Click,seeded Click action,/dashboard,10.20.230.35,2025-09-20 05:14:08,seed_3_29_3254_0021,SeedAgent/1.0,NULL,0,ui_event
 2711,3,Edit,seeded Edit action,/inventory,10.20.182.45,2025-09-20 20:52:57,seed_3_29_3254_0022,SeedAgent/1.0,NULL,0,ui_event
+2712,1,Logout,Action on auth,http://localhost:5000/api/auth/logout,172.18.0.1,2025-10-20 14:19:08,5cc9e0b0-c476-4b49-a99b-7f3bc561a33c,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2713,1,Login,Action on auth,http://localhost:5000/api/auth/login,172.18.0.1,2025-10-20 14:21:59,d5728841-317c-47db-ba4a-80e465730aba,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2714,1,Logout,Action on auth,http://localhost:5000/api/auth/logout,172.18.0.1,2025-10-20 14:22:42,d5728841-317c-47db-ba4a-80e465730aba,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2715,2,Login,Action on auth,http://localhost:5000/api/auth/login,172.18.0.1,2025-10-20 14:22:51,8e4cd49d-f730-4bdc-ac54-f7f534a20a14,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,1,ui_event
+2716,2,Logout,Action on auth,http://localhost:5000/api/auth/logout,172.18.0.1,2025-10-20 14:22:55,8e4cd49d-f730-4bdc-ac54-f7f534a20a14,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,1,ui_event
+2717,1,Login,Action on auth,http://localhost:5000/api/auth/login,172.18.0.1,2025-10-20 14:23:02,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2718,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 14:37:46,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2719,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 14:37:46,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2720,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 14:37:52,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2721,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 14:37:52,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2722,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 14:37:55,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2723,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 14:37:55,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2724,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 14:40:19,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2725,1,View,Action on orders,http://localhost:5000/api/orders/,172.18.0.1,2025-10-20 14:40:19,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2726,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 14:40:19,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2727,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 14:40:19,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2728,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 14:40:19,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2729,1,View,Action on orders,http://localhost:5000/api/orders/,172.18.0.1,2025-10-20 14:40:19,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2730,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 14:43:44,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2731,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 14:43:44,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2732,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 14:43:49,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2733,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 14:43:49,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2734,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 14:53:39,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2735,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 14:53:39,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2736,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 14:53:46,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2737,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 14:53:46,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2738,1,View,Action on orders,http://localhost:5000/api/orders/,172.18.0.1,2025-10-20 14:53:46,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2739,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 14:53:46,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2740,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 14:53:46,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2741,1,View,Action on orders,http://localhost:5000/api/orders/,172.18.0.1,2025-10-20 14:53:46,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2742,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 14:53:51,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2743,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 14:53:51,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2744,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 15:12:45,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2745,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 15:12:45,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2746,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 15:19:30,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2747,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 15:19:30,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2748,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 15:19:32,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2749,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 15:19:32,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2750,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 15:19:34,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2751,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 15:19:34,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2752,1,View,Action on orders,http://localhost:5000/api/orders/,172.18.0.1,2025-10-20 15:19:34,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2753,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 15:19:34,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2754,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 15:19:34,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2755,1,View,Action on orders,http://localhost:5000/api/orders/,172.18.0.1,2025-10-20 15:19:34,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2756,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 15:19:37,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2757,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 15:19:37,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2758,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 15:21:40,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2759,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 15:21:40,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2760,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 15:32:38,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2761,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 15:32:38,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2762,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 15:32:41,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2763,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 15:32:41,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2764,1,View,Action on orders,http://localhost:5000/api/orders/,172.18.0.1,2025-10-20 15:32:53,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2765,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 15:32:53,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2766,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 15:32:53,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2767,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 15:32:53,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2768,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 15:32:53,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2769,1,View,Action on orders,http://localhost:5000/api/orders/,172.18.0.1,2025-10-20 15:32:54,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2770,1,View,Action on orders,http://localhost:5000/api/orders/,172.18.0.1,2025-10-20 15:38:44,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2771,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 15:38:44,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2772,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 15:38:44,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2773,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 15:38:44,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2774,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 15:38:44,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2775,1,View,Action on orders,http://localhost:5000/api/orders/,172.18.0.1,2025-10-20 15:38:44,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2776,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 15:39:23,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2777,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 15:39:23,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2778,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 15:50:22,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2779,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 15:50:23,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2780,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 15:54:03,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2781,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 15:54:03,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2782,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 15:54:28,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2783,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 15:54:28,a09e6c8e-d3a1-4d42-ac9b-7c9d2e97cfcf,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2784,1,Login,Action on auth,http://localhost:5000/api/auth/login,172.18.0.1,2025-10-20 16:12:53,d448e3e7-bba9-4d28-affb-d3d8aea0210b,Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0,NULL,0,ui_event
+2785,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 16:15:25,d448e3e7-bba9-4d28-affb-d3d8aea0210b,Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0,NULL,0,ui_event
+2786,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 16:15:25,d448e3e7-bba9-4d28-affb-d3d8aea0210b,Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0,NULL,0,ui_event
+2787,1,View,Action on orders,http://localhost:5000/api/orders/,172.18.0.1,2025-10-20 16:21:53,d448e3e7-bba9-4d28-affb-d3d8aea0210b,Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0,NULL,0,ui_event
+2788,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 16:21:53,d448e3e7-bba9-4d28-affb-d3d8aea0210b,Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0,NULL,0,ui_event
+2789,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 16:21:53,d448e3e7-bba9-4d28-affb-d3d8aea0210b,Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0,NULL,0,ui_event
+2790,1,View,Action on orders,http://localhost:5000/api/orders/,172.18.0.1,2025-10-20 16:21:53,d448e3e7-bba9-4d28-affb-d3d8aea0210b,Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0,NULL,0,ui_event
+2791,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 16:21:53,d448e3e7-bba9-4d28-affb-d3d8aea0210b,Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0,NULL,0,ui_event
+2792,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 16:21:53,d448e3e7-bba9-4d28-affb-d3d8aea0210b,Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0,NULL,0,ui_event
+2793,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 16:21:57,d448e3e7-bba9-4d28-affb-d3d8aea0210b,Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0,NULL,0,ui_event
+2794,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 16:21:57,d448e3e7-bba9-4d28-affb-d3d8aea0210b,Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0,NULL,0,ui_event
+2795,1,Login,Action on auth,http://localhost:5000/api/auth/login,172.18.0.1,2025-10-20 16:22:50,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2796,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 16:26:45,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2797,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 16:26:45,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2798,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 16:26:47,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2799,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 16:26:47,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2800,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 16:33:41,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2801,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 16:33:41,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2802,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 16:33:43,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2803,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 16:33:43,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2804,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 16:33:48,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2805,1,View,Action on orders,http://localhost:5000/api/orders/,172.18.0.1,2025-10-20 16:33:48,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2806,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 16:33:48,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2807,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 16:33:48,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2808,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 16:33:48,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2809,1,View,Action on orders,http://localhost:5000/api/orders/,172.18.0.1,2025-10-20 16:33:48,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2810,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 16:50:44,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2811,1,View,Action on orders,http://localhost:5000/api/orders/,172.18.0.1,2025-10-20 16:50:44,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2812,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 16:50:44,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2813,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 16:50:44,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2814,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 16:50:44,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2815,1,View,Action on orders,http://localhost:5000/api/orders/,172.18.0.1,2025-10-20 16:50:44,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2816,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 16:52:15,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2817,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 16:52:15,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2818,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 16:52:17,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2819,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 16:52:17,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2820,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 16:52:26,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2821,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 16:52:26,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2822,1,View,Action on orders,http://localhost:5000/api/orders/,172.18.0.1,2025-10-20 16:52:26,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2823,1,View,Action on inventory,http://localhost:5000/api/inventory/,172.18.0.1,2025-10-20 16:52:26,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2824,1,View,Action on users,http://localhost:5000/api/users/,172.18.0.1,2025-10-20 16:52:26,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event
+2825,1,View,Action on orders,http://localhost:5000/api/orders/,172.18.0.1,2025-10-20 16:52:26,889e075f-d9f5-4a96-add6-3cbcac63dee1,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36,NULL,0,ui_event

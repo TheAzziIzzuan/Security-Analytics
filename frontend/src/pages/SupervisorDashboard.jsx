@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { logActivity } from '../services/activityLogger'
@@ -13,6 +13,7 @@ const SupervisorDashboard = () => {
   const navigate = useNavigate()
   const [activeView, setActiveView] = useState('dashboard')
   const [showSecurityLogs, setShowSecurityLogs] = useState(false)
+  const [securityFilters, setSecurityFilters] = useState({})
 
   const handleLogout = () => {
     logActivity('logout_clicked', { role: 'supervisor' })
@@ -30,13 +31,25 @@ const SupervisorDashboard = () => {
       setActiveView('user_management')
     } else if (action === 'view_orders') {
       setActiveView('orders')
+    } else if (action === 'view_reports') {
+      navigate('/analytics')
     } else if (action === 'security_logs') {
-      // open the Security Logs overlay
       setShowSecurityLogs(true)
     } else {
       alert(`${action} - Coming soon!`)
     }
   }
+
+  // Listen for external requests to open SecurityLogs (Alerts/Analytics)
+  useEffect(() => {
+    const handler = (e) => {
+      const detail = e.detail || {}
+      setSecurityFilters(detail)
+      setShowSecurityLogs(true)
+    }
+    window.addEventListener('openSecurityLogs', handler)
+    return () => window.removeEventListener('openSecurityLogs', handler)
+  }, [])
 
   const renderView = () => {
     switch (activeView) {
@@ -126,7 +139,7 @@ const SupervisorDashboard = () => {
       <div className="dashboard-content">
         {renderView()}
         {showSecurityLogs && (
-          <SecurityLogs onClose={() => setShowSecurityLogs(false)} />
+          <SecurityLogs onClose={() => setShowSecurityLogs(false)} filters={securityFilters} />
         )}
       </div>
     </div>

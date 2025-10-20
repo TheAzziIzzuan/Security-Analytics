@@ -3,6 +3,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from extensions import db
 from models import AnomalyScore, FlaggedActivity, UserLog
 from datetime import datetime, timedelta
+from services.detection import compute_anomaly_scores
 
 bp = Blueprint('analytics', __name__, url_prefix='/api/analytics')
 
@@ -108,6 +109,32 @@ def get_dashboard_stats():
             'recent_anomaly_scores': [score.to_dict() for score in recent_scores]
         }), 200
         
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@bp.route('/run-detection', methods=['POST'])
+@jwt_required()
+def run_detection():
+    """Manual trigger to run detection (protected)
+    Note: In production restrict this endpoint to admins only.
+    """
+    try:
+        results = compute_anomaly_scores(days=30)
+        return jsonify({'anomalies': results}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@bp.route('/top-anomalies', methods=['GET'])
+@jwt_required()
+def get_top_anomalies():
+    try:
+        top = request.args.get('top', 15, type=int)
+        min_score = request.args.get('min_score', 0, type=int)
+        query = AnomalyScore.query.filter(AnomalyScore.risk_score >= min_score).order_by(AnomalyScore.created_at.desc()).limit(top)
+        rows = query.all()
+        return jsonify({'anomalies': [r.to_dict() for r in rows]}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

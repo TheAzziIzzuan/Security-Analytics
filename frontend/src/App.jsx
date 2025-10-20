@@ -4,6 +4,7 @@ import Login from './pages/Login'
 import SupervisorDashboard from './pages/SupervisorDashboard'
 import EmployeeDashboard from './pages/EmployeeDashboard'
 import ContractorDashboard from './pages/ContractorDashboard'
+import Analytics from './pages/Analytics'
 import ProtectedRoute from './components/ProtectedRoute'
 import './App.css'
 
@@ -22,6 +23,14 @@ function App() {
                 <SupervisorDashboard />
               </ProtectedRoute>
             } 
+          />
+          <Route 
+            path="/analytics"
+            element={
+              <ProtectedRoute allowedRoles={['supervisor']}>
+                <Analytics />
+              </ProtectedRoute>
+            }
           />
           <Route 
             path="/employee" 

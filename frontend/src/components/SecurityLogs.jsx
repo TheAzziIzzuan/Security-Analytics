@@ -12,9 +12,10 @@ const SecurityLogs = ({ onClose } ) => {
       setLoading(true)
       setError(null)
       try {
-        // Request top 15 most recent logs
-        const data = await logsService.getLogs({ limit: 15 })
-        setLogs(data)
+  // Request top 20 most recent logs
+  const data = await logsService.getLogs({ limit: 20 })
+        const arr = data && (data.logs || data)
+        setLogs(Array.isArray(arr) ? arr : [])
       } catch (err) {
         setError(err.message)
       } finally {
@@ -28,7 +29,7 @@ const SecurityLogs = ({ onClose } ) => {
   return (
     <div className="security-logs-container">
       <div className="security-logs-header">
-        <h2>Latest Security Logs</h2>
+        <h2>Top 20 Security Logs</h2>
         <button aria-label="close" onClick={onClose} className="btn-close">✕</button>
       </div>
 

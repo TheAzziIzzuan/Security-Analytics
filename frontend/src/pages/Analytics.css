@@ -1,0 +1,11 @@
+.analytics-page { max-width: 1100px; margin: 20px auto; padding: 20px }
+.anomaly-list { display:flex; flex-direction:column; gap:12px; margin-top:16px }
+.anomaly-card { display:flex; gap:12px; align-items:center; background:white; padding:12px 16px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.05); cursor:pointer }
+.anomaly-card .score { width:64px; height:64px; display:flex; align-items:center; justify-content:center; border-radius:8px; font-weight:700; font-size:18px }
+.anomaly-card .info { flex:1 }
+.anomaly-card.normal .score { background:#e0e0e0; color:#333 }
+.anomaly-card.low-alert .score { background:#fff8e1; color:#ffb300 }
+.anomaly-card.medium-alert .score { background:#fff3e0; color:#ff7043 }
+.anomaly-card.high-alert .score { background:#ffebee; color:#d32f2f }
+.anomaly-card:hover { transform:translateY(-3px); box-shadow:0 6px 18px rgba(0,0,0,0.08) }
+.error { color:#b00020 }
