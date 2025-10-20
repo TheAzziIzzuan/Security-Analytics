@@ -1,0 +1,64 @@
+.security-logs-container {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 1000px;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  padding: 16px;
+  z-index: 9999;
+}
+
+.security-logs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.btn-close {
+  background: #f44336;
+  color: white;
+  border: none;
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.security-logs-container { max-height: 80vh; overflow: auto; }
+
+.logs-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.logs-table th, .logs-table td {
+  border: 1px solid #eee;
+  padding: 8px;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.logs-table tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.logs-table .detail {
+  max-width: 320px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.error {
+  color: #b00020;
+}

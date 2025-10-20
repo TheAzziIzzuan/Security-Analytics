@@ -108,15 +108,22 @@ class UserLog(db.Model):
     log_type = db.Column(db.Enum('ui_event', 'system', 'auth', 'data_access'), default='ui_event')
     
     def to_dict(self):
+        # Normalize field names for API consumption and avoid referencing
+        # non-existing attributes (target_resource, timestamp) which caused errors.
         return {
             'log_id': self.log_id,
             'user_id': self.user_id,
+            'username': self.user.username if self.user else None,
             'session_id': self.session_id,
             'action_type': self.action_type,
-            'target_resource': self.target_resource,
+            'action_detail': self.action_detail,
+            'page_url': self.page_url,
             'ip_address': self.ip_address,
             'user_agent': self.user_agent,
-            'timestamp': self.timestamp.isoformat() if self.timestamp else None
+            'geo_location': self.geo_location,
+            'is_flagged': bool(self.is_flagged),
+            'log_type': str(self.log_type) if self.log_type else None,
+            'timestamp': self.log_timestamp.isoformat() if self.log_timestamp else None
         }
 
 

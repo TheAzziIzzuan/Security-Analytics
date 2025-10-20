@@ -74,7 +74,7 @@ def get_dashboard_stats():
         
         # Get total activities
         total_activities = UserLog.query.filter(
-            UserLog.timestamp >= start_date
+            UserLog.log_timestamp >= start_date
         ).count()
         
         # Get high risk alerts

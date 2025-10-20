@@ -94,7 +94,7 @@ class ActivityLogger:
                 user_id=log_entry.user_id,
                 action_type='Login'
             ).filter(
-                UserLog.timestamp >= datetime.utcnow().replace(hour=0, minute=0, second=0)
+                UserLog.log_timestamp >= datetime.utcnow().replace(hour=0, minute=0, second=0)
             ).count()
             
             if recent_logins > 10:
@@ -115,7 +115,7 @@ class ActivityLogger:
             user_id=log_entry.user_id,
             session_id=log_entry.session_id
         ).filter(
-            UserLog.timestamp >= datetime.utcnow()
+            UserLog.log_timestamp >= datetime.utcnow()
         ).count()
         
         if recent_actions > 20:  # More than 20 actions in a minute

@@ -35,15 +35,15 @@ def get_logs():
         
         if start_date:
             start = datetime.fromisoformat(start_date)
-            query = query.filter(UserLog.timestamp >= start)
+            query = query.filter(UserLog.log_timestamp >= start)
         
         if end_date:
             end = datetime.fromisoformat(end_date)
-            query = query.filter(UserLog.timestamp <= end)
+            query = query.filter(UserLog.log_timestamp <= end)
         
         # Order by most recent and limit
-        logs = query.order_by(UserLog.timestamp.desc()).limit(limit).all()
-        
+        logs = query.order_by(UserLog.log_timestamp.desc()).limit(limit).all()
+
         return jsonify([log.to_dict() for log in logs]), 200
         
     except Exception as e:
@@ -84,11 +84,11 @@ def get_activity_summary():
     try:
         user_id = request.args.get('user_id', type=int)
         days = request.args.get('days', 7, type=int)
-        
+
         start_date = datetime.utcnow() - timedelta(days=days)
-        
-        query = UserLog.query.filter(UserLog.timestamp >= start_date)
-        
+
+        query = UserLog.query.filter(UserLog.log_timestamp >= start_date)
+
         if user_id:
             query = query.filter_by(user_id=user_id)
         

@@ -5,12 +5,14 @@ import { logActivity } from '../services/activityLogger'
 import InventoryManagement from '../components/InventoryManagement'
 import UserManagement from '../components/UserManagement'
 import OrderManagement from '../components/OrderManagement'
+import SecurityLogs from '../components/SecurityLogs'
 import './Dashboard.css'
 
 const SupervisorDashboard = () => {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const [activeView, setActiveView] = useState('dashboard')
+  const [showSecurityLogs, setShowSecurityLogs] = useState(false)
 
   const handleLogout = () => {
     logActivity('logout_clicked', { role: 'supervisor' })
@@ -28,6 +30,9 @@ const SupervisorDashboard = () => {
       setActiveView('user_management')
     } else if (action === 'view_orders') {
       setActiveView('orders')
+    } else if (action === 'security_logs') {
+      // open the Security Logs overlay
+      setShowSecurityLogs(true)
     } else {
       alert(`${action} - Coming soon!`)
     }
@@ -120,6 +125,9 @@ const SupervisorDashboard = () => {
 
       <div className="dashboard-content">
         {renderView()}
+        {showSecurityLogs && (
+          <SecurityLogs onClose={() => setShowSecurityLogs(false)} />
+        )}
       </div>
     </div>
   )
