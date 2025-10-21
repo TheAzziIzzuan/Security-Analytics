@@ -8,6 +8,8 @@
 - http://localhost:5000/api/health (expect: {"status":"healthy","message":"Backend is running"})
 - docker compose ps
 - docker compose logs backend -f
-- docker compose logs db -f
 
+**Restart DB**
+- docker compose down -v
+- docker compose up -d
 
