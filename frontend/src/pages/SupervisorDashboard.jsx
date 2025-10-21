@@ -56,7 +56,7 @@ const SupervisorDashboard = () => {
       case 'inventory':
         return <InventoryManagement onClose={() => setActiveView('dashboard')} />
       case 'user_management':
-        return <UserManagement />
+        return <UserManagement onClose={() => setActiveView('dashboard')} />
       case 'orders':
         return <OrderManagement onClose={() => setActiveView('dashboard')} />
       default:

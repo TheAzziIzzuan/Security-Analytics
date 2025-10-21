@@ -50,6 +50,8 @@ const InventoryManagement = ({ onClose }) => {
     } catch (err) {
       setError(err.message)
       logActivity('inventory_load_failed', { error: err.message })
+      // Auto-dismiss error message
+      setTimeout(() => setError(''), 5000)
     } finally {
       setLoading(false)
     }
@@ -91,6 +93,8 @@ const InventoryManagement = ({ onClose }) => {
     } catch (err) {
       setError(err.message)
       logActivity('inventory_item_create_failed', { error: err.message })
+      // Auto-dismiss error message
+      setTimeout(() => setError(''), 5000)
     }
   }
 
@@ -117,6 +121,8 @@ const InventoryManagement = ({ onClose }) => {
     } catch (err) {
       setError(err.message)
       logActivity('inventory_item_update_failed', { error: err.message })
+      // Auto-dismiss error message
+      setTimeout(() => setError(''), 5000)
     }
   }
 
@@ -142,6 +148,8 @@ const InventoryManagement = ({ onClose }) => {
     } catch (err) {
       setError(err.message)
       logActivity('inventory_item_delete_failed', { error: err.message })
+      // Auto-dismiss error message
+      setTimeout(() => setError(''), 5000)
     }
   }
 
@@ -221,8 +229,8 @@ const InventoryManagement = ({ onClose }) => {
         )}
       </div>
 
-      {error && <div className="alert alert-error">{error}</div>}
-      {success && <div className="alert alert-success">{success}</div>}
+      {error && <div className="error-message">{error}</div>}
+      {success && <div className="success-message">{success}</div>}
 
       {/* Filters and Actions */}
       <div className="inventory-controls">

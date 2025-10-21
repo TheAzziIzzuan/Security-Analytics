@@ -5,11 +5,14 @@ import userService from '../services/userService'
 import { useAuth } from '../context/AuthContext'
 import './UserManagement.css'
 
-const UserManagement = () => {
+const UserManagement = ({ onClose }) => {
   const { user: currentUser } = useAuth()
   const [showAddUser, setShowAddUser] = useState(false)
   const [showEditUser, setShowEditUser] = useState(false)
   const [editingUserId, setEditingUserId] = useState(null)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [deleteUserId, setDeleteUserId] = useState(null)
+  const [deleteUsername, setDeleteUsername] = useState('')
   const [formData, setFormData] = useState({
     username: '',
     full_name: '',
@@ -120,9 +123,14 @@ const UserManagement = () => {
         username: formData.username, 
         role_id: formData.role_id 
       })
+      
+      // Auto-dismiss success message after 5 seconds
+      setTimeout(() => setSuccess(''), 5000)
     } catch (err) {
       setError(err.message || 'Failed to create user. Please try again.')
       logActivity('supervisor_create_user_failed', { error: err.message })
+      // Auto-dismiss error message after 5 seconds
+      setTimeout(() => setError(''), 5000)
     } finally {
       setLoading(false)
     }
@@ -132,21 +140,41 @@ const UserManagement = () => {
     // Prevent deleting own account
     if (currentUser && currentUser.id === userId) {
       setError('You cannot delete your own account!')
+      setTimeout(() => setError(''), 5000)
       return
     }
 
-    if (window.confirm(`Are you sure you want to delete user "${username}"? This action cannot be undone.`)) {
-      try {
-        await userService.deleteUser(userId)
-        setSuccess(`User "${username}" has been deleted.`)
-        loadUsers() // Reload the users list
-        
-        logActivity('supervisor_delete_user', { userId, username })
-      } catch (err) {
-        setError(err.message || 'Failed to delete user.')
-        logActivity('supervisor_delete_user_failed', { userId, error: err.message })
-      }
+    // Show confirmation modal instead of window.confirm
+    setDeleteUserId(userId)
+    setDeleteUsername(username)
+    setShowDeleteConfirm(true)
+  }
+
+  const confirmDelete = async () => {
+    try {
+      await userService.deleteUser(deleteUserId)
+      setSuccess(`User "${deleteUsername}" has been deleted.`)
+      loadUsers() // Reload the users list
+      setShowDeleteConfirm(false)
+      setDeleteUserId(null)
+      setDeleteUsername('')
+      
+      logActivity('supervisor_delete_user', { userId: deleteUserId, username: deleteUsername })
+      
+      // Auto-dismiss success message after 5 seconds
+      setTimeout(() => setSuccess(''), 5000)
+    } catch (err) {
+      setError(err.message || 'Failed to delete user.')
+      logActivity('supervisor_delete_user_failed', { userId: deleteUserId, error: err.message })
+      // Auto-dismiss error message after 5 seconds
+      setTimeout(() => setError(''), 5000)
     }
+  }
+
+  const cancelDelete = () => {
+    setShowDeleteConfirm(false)
+    setDeleteUserId(null)
+    setDeleteUsername('')
   }
 
   const handleEditUser = (user) => {
@@ -195,9 +223,14 @@ const UserManagement = () => {
       loadUsers()
       
       logActivity('supervisor_update_user_success', { userId: editingUserId })
+      
+      // Auto-dismiss success message after 5 seconds
+      setTimeout(() => setSuccess(''), 5000)
     } catch (err) {
       setError(err.message || 'Failed to update user. Please try again.')
       logActivity('supervisor_update_user_failed', { userId: editingUserId, error: err.message })
+      // Auto-dismiss error message after 5 seconds
+      setTimeout(() => setError(''), 5000)
     } finally {
       setLoading(false)
     }
@@ -214,163 +247,195 @@ const UserManagement = () => {
     <div className="user-management">
       <div className="user-management-header">
         <h2>👥 User Management</h2>
-        <button 
-          className="btn-add-user" 
-          onClick={() => setShowAddUser(!showAddUser)}
-        >
-          {showAddUser ? '✕ Cancel' : '+ Add New User'}
-        </button>
+        <div className="header-buttons">
+          <button 
+            className="btn-add-user" 
+            onClick={() => setShowAddUser(!showAddUser)}
+          >
+            {showAddUser ? '✕ Cancel' : '+ Add New User'}
+          </button>
+          {onClose && (
+            <button onClick={onClose} className="btn-close-section">✕</button>
+          )}
+        </div>
       </div>
 
       {success && <div className="success-message">{success}</div>}
 
       {showAddUser && (
-        <div className="add-user-form">
-          <h3>Create New User</h3>
-          
-          {error && <div className="error-message">{error}</div>}
-          
-          <form onSubmit={handleSubmit}>
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="username">Username *</label>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleChange}
-                  placeholder="Enter username"
-                  disabled={loading}
-                />
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Create New User</h3>
+            
+            {error && <div className="error-message">{error}</div>}
+            
+            <form onSubmit={handleSubmit}>
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="username">Username <span className="required">*</span></label>
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    placeholder="Enter username"
+                    disabled={loading}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="full_name">Full Name</label>
+                  <input
+                    type="text"
+                    id="full_name"
+                    name="full_name"
+                    value={formData.full_name}
+                    onChange={handleChange}
+                    placeholder="Enter full name"
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="email">Email <span className="required">*</span></label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Enter email"
+                    disabled={loading}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="password">Password <span className="required">*</span></label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="Min. 6 characters"
+                    disabled={loading}
+                  />
+                </div>
               </div>
 
               <div className="form-group">
-                <label htmlFor="full_name">Full Name</label>
-                <input
-                  type="text"
-                  id="full_name"
-                  name="full_name"
-                  value={formData.full_name}
+                <label htmlFor="role_id">Role <span className="required">*</span></label>
+                <select
+                  id="role_id"
+                  name="role_id"
+                  value={formData.role_id}
                   onChange={handleChange}
-                  placeholder="Enter full name"
                   disabled={loading}
-                />
-              </div>
-            </div>
-
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="email">Email *</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Enter email"
-                  disabled={loading}
-                />
+                >
+                  {roles.map(role => (
+                    <option key={role.role_id} value={role.role_id}>
+                      {role.role_name}
+                    </option>
+                  ))}
+                </select>
               </div>
 
-              <div className="form-group">
-                <label htmlFor="password">Password *</label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Min. 6 characters"
-                  disabled={loading}
-                />
+              <div className="modal-actions">
+                <button type="submit" className="btn-submit" disabled={loading}>
+                  {loading ? 'Creating User...' : 'Create User'}
+                </button>
+                <button type="button" className="btn-cancel" onClick={() => setShowAddUser(false)} disabled={loading}>
+                  Cancel
+                </button>
               </div>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="role_id">Role *</label>
-              <select
-                id="role_id"
-                name="role_id"
-                value={formData.role_id}
-                onChange={handleChange}
-                disabled={loading}
-              >
-                {roles.map(role => (
-                  <option key={role.role_id} value={role.role_id}>
-                    {role.role_name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <button type="submit" className="btn-submit" disabled={loading}>
-              {loading ? 'Creating User...' : 'Create User'}
-            </button>
-          </form>
+            </form>
+          </div>
         </div>
       )}
 
       {showEditUser && (
-        <div className="add-user-form edit-user-form">
-          <h3>Edit User</h3>
-          
-          {error && <div className="error-message">{error}</div>}
-          
-          <form onSubmit={handleUpdateUser}>
-            <div className="form-group">
-              <label htmlFor="edit-username">Username (Read-only)</label>
-              <input
-                type="text"
-                id="edit-username"
-                value={formData.username}
-                disabled
-                style={{ backgroundColor: '#f5f5f5', cursor: 'not-allowed' }}
-              />
-            </div>
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Edit User</h3>
+            
+            {error && <div className="error-message">{error}</div>}
+            
+            <form onSubmit={handleUpdateUser}>
+              <div className="form-group">
+                <label htmlFor="edit-username">Username (Read-only)</label>
+                <input
+                  type="text"
+                  id="edit-username"
+                  value={formData.username}
+                  disabled
+                  style={{ backgroundColor: '#f5f5f5', cursor: 'not-allowed' }}
+                />
+              </div>
 
-            <div className="form-group">
-              <label htmlFor="edit-role_id">
-                Role {currentUser && currentUser.id === editingUserId && currentUser.role === 'supervisor' ? '(Read-only - Cannot change your own role)' : '*'}
-              </label>
-              <select
-                id="edit-role_id"
-                name="role_id"
-                value={formData.role_id}
-                onChange={handleChange}
-                disabled={loading || (currentUser && currentUser.id === editingUserId && currentUser.role === 'supervisor')}
-                style={currentUser && currentUser.id === editingUserId && currentUser.role === 'supervisor' ? { backgroundColor: '#f5f5f5', cursor: 'not-allowed' } : {}}
-              >
-                {roles.map(role => (
-                  <option key={role.role_id} value={role.role_id}>
-                    {role.role_name}
-                  </option>
-                ))}
-              </select>
-            </div>
+              <div className="form-group">
+                <label htmlFor="edit-role_id">
+                  Role {currentUser && currentUser.id === editingUserId && currentUser.role === 'supervisor' ? '(Read-only - Cannot change your own role)' : <span className="required">*</span>}
+                </label>
+                <select
+                  id="edit-role_id"
+                  name="role_id"
+                  value={formData.role_id}
+                  onChange={handleChange}
+                  disabled={loading || (currentUser && currentUser.id === editingUserId && currentUser.role === 'supervisor')}
+                  style={currentUser && currentUser.id === editingUserId && currentUser.role === 'supervisor' ? { backgroundColor: '#f5f5f5', cursor: 'not-allowed' } : {}}
+                >
+                  {roles.map(role => (
+                    <option key={role.role_id} value={role.role_id}>
+                      {role.role_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            <div className="form-group">
-              <label htmlFor="edit-password">New Password (Leave blank to keep current)</label>
-              <input
-                type="password"
-                id="edit-password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Enter new password or leave blank"
-                disabled={loading}
-              />
-            </div>
+              <div className="form-group">
+                <label htmlFor="edit-password">New Password (Leave blank to keep current)</label>
+                <input
+                  type="password"
+                  id="edit-password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Enter new password or leave blank"
+                  disabled={loading}
+                />
+              </div>
 
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <button type="submit" className="btn-submit" disabled={loading}>
-                {loading ? 'Updating User...' : 'Update User'}
-              </button>
-              <button type="button" className="btn-cancel" onClick={cancelEdit} disabled={loading}>
+              <div className="modal-actions">
+                <button type="submit" className="btn-submit" disabled={loading}>
+                  {loading ? 'Updating User...' : 'Update User'}
+                </button>
+                <button type="button" className="btn-cancel" onClick={cancelEdit} disabled={loading}>
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {showDeleteConfirm && (
+        <div className="modal-overlay">
+          <div className="modal-content confirmation-modal">
+            <h3>Delete User</h3>
+            <p className="confirmation-text">Are you sure you want to delete user <strong>"{deleteUsername}"</strong>? This action cannot be undone.</p>
+            
+            <div className="modal-actions">
+              <button type="button" className="btn-cancel" onClick={cancelDelete} disabled={loading}>
                 Cancel
               </button>
+              <button type="button" className="btn-delete-confirm" onClick={confirmDelete} disabled={loading}>
+                {loading ? 'Deleting...' : '🗑️ Delete User'}
+              </button>
             </div>
-          </form>
+          </div>
         </div>
       )}
 

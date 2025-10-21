@@ -55,7 +55,8 @@
 }
 
 /* Alerts - Toast Notifications */
-.alert {
+.success-message,
+.error-message {
   position: fixed;
   top: 24px;
   right: 24px;
@@ -72,26 +73,26 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-.alert-error {
+.error-message {
   background: #fff0f0;
   color: #c0392b;
   border-left: 4px solid #e74c3c;
 }
 
-.alert-error::before {
+.error-message::before {
   content: '✕';
   font-weight: 700;
   font-size: 20px;
   flex-shrink: 0;
 }
 
-.alert-success {
+.success-message {
   background: #f0fff0;
   color: #27ae60;
   border-left: 4px solid #27ae60;
 }
 
-.alert-success::before {
+.success-message::before {
   content: '✓';
   font-weight: 700;
   font-size: 20px;
@@ -673,7 +674,8 @@
     padding: 16px;
   }
 
-  .alert {
+  .success-message,
+  .error-message {
     margin: 8px 16px 0;
   }
 
