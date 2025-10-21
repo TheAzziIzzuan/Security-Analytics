@@ -85,6 +85,9 @@ const InventoryManagement = ({ onClose }) => {
         item_name: formData.item_name,
         category: formData.category 
       })
+
+      // Auto-dismiss success message
+      setTimeout(() => setSuccess(''), 5000)
     } catch (err) {
       setError(err.message)
       logActivity('inventory_item_create_failed', { error: err.message })
@@ -108,6 +111,9 @@ const InventoryManagement = ({ onClose }) => {
         item_id: currentItem.item_id,
         item_name: formData.item_name 
       })
+
+      // Auto-dismiss success message
+      setTimeout(() => setSuccess(''), 5000)
     } catch (err) {
       setError(err.message)
       logActivity('inventory_item_update_failed', { error: err.message })
@@ -130,6 +136,9 @@ const InventoryManagement = ({ onClose }) => {
         item_id: item.item_id,
         item_name: item.item_name 
       })
+
+      // Auto-dismiss success message
+      setTimeout(() => setSuccess(''), 5000)
     } catch (err) {
       setError(err.message)
       logActivity('inventory_item_delete_failed', { error: err.message })
@@ -159,6 +168,17 @@ const InventoryManagement = ({ onClose }) => {
   const displayedInventory = showLowStock 
     ? inventory.filter((i) => Number(i.quantity) < Number(lowStockThreshold)) 
     : inventory
+
+  const getQuantityBarPercentage = (quantity, threshold = 100) => {
+    return Math.min((Number(quantity) / threshold) * 100, 100)
+  }
+
+  const getQuantityStatus = (quantity, threshold) => {
+    const q = Number(quantity)
+    if (q === 0) return 'critical-stock'
+    if (q < Number(threshold)) return 'low-stock'
+    return 'normal'
+  }
 
   const exportInventoryCSV = () => {
     const headers = ['Item Name', 'Category', 'Quantity', 'Last Updated']
@@ -232,7 +252,7 @@ const InventoryManagement = ({ onClose }) => {
               checked={showLowStock}
               onChange={(e) => { setShowLowStock(e.target.checked); logActivity('inventory_low_stock_toggle', { enabled: e.target.checked }) }}
             />
-            <span>Show low stock only</span>
+            <span>Show low stock</span>
           </label>
 
           {showLowStock && (
@@ -248,21 +268,22 @@ const InventoryManagement = ({ onClose }) => {
           )}
         </div>
 
-        {canEdit && (
+        <div className="inventory-controls-buttons">
+          {canEdit && (
+            <button 
+              onClick={() => { logActivity('inventory_add_modal_open', {}); setShowAddModal(true) }} 
+              className="btn btn-primary"
+            >
+              ➕ Add New Item
+            </button>
+          )}
           <button 
-            onClick={() => { logActivity('inventory_add_modal_open', {}); setShowAddModal(true) }} 
-            className="btn btn-primary"
+            onClick={exportInventoryCSV} 
+            className="btn btn-secondary"
           >
-            + Add New Item
+            ⬇️ Export CSV
           </button>
-        )}
-        <button 
-          onClick={exportInventoryCSV} 
-          className="btn btn-secondary"
-          style={{ marginLeft: '8px' }}
-        >
-          ⬇️ Export CSV
-        </button>
+        </div>
       </div>
 
       {/* Inventory Table */}
@@ -283,47 +304,62 @@ const InventoryManagement = ({ onClose }) => {
             <tbody>
               {displayedInventory.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="no-data">No inventory items found</td>
+                  <td colSpan="5" className="no-data">
+                    {showLowStock 
+                      ? `No items below ${lowStockThreshold} units` 
+                      : 'No inventory items found'}
+                  </td>
                 </tr>
               ) : (
-                displayedInventory.map((item) => (
-                  <tr key={item.item_id}>
-                    <td className="item-name">{item.item_name}</td>
-                    <td>
-                      <span className="category-badge">{item.category || 'N/A'}</span>
-                    </td>
-                    <td className="quantity">
-                      <span className={Number(item.quantity) < Number(lowStockThreshold) ? 'low-stock' : ''}>
-                        {item.quantity}
-                      </span>
-                    </td>
-                    <td className="last-updated">
-                      {item.last_updated ? new Date(item.last_updated).toLocaleDateString() : 'N/A'}
-                    </td>
-                    <td className="actions">
-                      {canEdit ? (
-                        <>
-                          <button 
-                            onClick={() => openEditModal(item)}
-                            className="btn-icon btn-edit"
-                            title="Edit"
-                          >
-                            ✏️
-                          </button>
-                          <button 
-                            onClick={() => handleDeleteItem(item)}
-                            className="btn-icon btn-delete"
-                            title="Delete"
-                          >
-                            🗑️
-                          </button>
-                        </>
-                      ) : (
-                        <span className="no-actions">View only</span>
-                      )}
-                    </td>
-                  </tr>
-                ))
+                displayedInventory.map((item) => {
+                  const quantityStatus = getQuantityStatus(item.quantity, lowStockThreshold)
+                  return (
+                    <tr key={item.item_id}>
+                      <td className="item-name">{item.item_name}</td>
+                      <td>
+                        <span className="category-badge">{item.category || 'Uncategorized'}</span>
+                      </td>
+                      <td className="quantity">
+                        <div className="quantity-bar">
+                          <div className="bar">
+                            <div 
+                              className={`bar-fill ${quantityStatus}`}
+                              style={{ width: `${getQuantityBarPercentage(item.quantity)}%` }}
+                            />
+                          </div>
+                          <span className={quantityStatus}>{item.quantity}</span>
+                        </div>
+                      </td>
+                      <td className="last-updated">
+                        {item.last_updated ? new Date(item.last_updated).toLocaleDateString() : 'N/A'}
+                      </td>
+                      <td className="actions">
+                        {canEdit ? (
+                          <>
+                            <button 
+                              onClick={() => openEditModal(item)}
+                              className="btn-icon btn-edit"
+                              title="Edit item"
+                              aria-label={`Edit ${item.item_name}`}
+                            >
+                              ✏️
+                            </button>
+                            <button 
+                              onClick={() => handleDeleteItem(item)}
+                              className="btn-icon btn-delete"
+                              title="Delete item"
+                              aria-label={`Delete ${item.item_name}`}
+                            >
+                              🗑️
+                            </button>
+                          </>
+                        ) : (
+                          <span className="no-actions">View only</span>
+                        )}
+                      </td>
+                    </tr>
+                  )
+                })
               )}
             </tbody>
           </table>
@@ -337,14 +373,17 @@ const InventoryManagement = ({ onClose }) => {
             <h3>Add New Inventory Item</h3>
             <form onSubmit={handleAddItem}>
               <div className="form-group">
-                <label>Item Name *</label>
+                <label>
+                  Item Name <span className="required">*</span>
+                </label>
                 <input
                   type="text"
                   name="item_name"
                   value={formData.item_name}
                   onChange={handleInputChange}
                   required
-                  placeholder="Enter item name"
+                  placeholder="e.g., Widget A"
+                  autoFocus
                 />
               </div>
 
@@ -355,7 +394,7 @@ const InventoryManagement = ({ onClose }) => {
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
-                  placeholder="Enter category"
+                  placeholder="Select or type a category"
                   list="categories-list"
                 />
                 <datalist id="categories-list">
@@ -366,7 +405,9 @@ const InventoryManagement = ({ onClose }) => {
               </div>
 
               <div className="form-group">
-                <label>Quantity *</label>
+                <label>
+                  Quantity <span className="required">*</span>
+                </label>
                 <input
                   type="number"
                   name="quantity"
@@ -374,6 +415,7 @@ const InventoryManagement = ({ onClose }) => {
                   onChange={handleInputChange}
                   required
                   min="0"
+                  placeholder="0"
                 />
               </div>
 
@@ -382,7 +424,7 @@ const InventoryManagement = ({ onClose }) => {
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary">
-                  Add Item
+                  ➕ Add Item
                 </button>
               </div>
             </form>
@@ -397,13 +439,16 @@ const InventoryManagement = ({ onClose }) => {
             <h3>Edit Inventory Item</h3>
             <form onSubmit={handleEditItem}>
               <div className="form-group">
-                <label>Item Name *</label>
+                <label>
+                  Item Name <span className="required">*</span>
+                </label>
                 <input
                   type="text"
                   name="item_name"
                   value={formData.item_name}
                   onChange={handleInputChange}
                   required
+                  autoFocus
                 />
               </div>
 
@@ -419,7 +464,9 @@ const InventoryManagement = ({ onClose }) => {
               </div>
 
               <div className="form-group">
-                <label>Quantity *</label>
+                <label>
+                  Quantity <span className="required">*</span>
+                </label>
                 <input
                   type="number"
                   name="quantity"
@@ -435,7 +482,7 @@ const InventoryManagement = ({ onClose }) => {
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary">
-                  Update Item
+                  ✓ Update Item
                 </button>
               </div>
             </form>
