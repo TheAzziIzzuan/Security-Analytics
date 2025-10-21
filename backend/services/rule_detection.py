@@ -271,7 +271,7 @@ class RuleBasedDetection:
                 'name': self.rules['after_hours_critical']['name'],
                 'severity': 'Medium',
                 'count': len(critical_actions),
-                'description': f"{len(critical_actions)} sensitive ops between 10PM-6AM",
+                'description': f"{len(critical_actions)} sensitive ops between 11PM-6AM",
                 'points': self.rules['after_hours_critical']['points']
             }
         return None
