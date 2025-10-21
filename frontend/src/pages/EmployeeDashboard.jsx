@@ -49,7 +49,7 @@ const EmployeeDashboard = () => {
     <>
       <div className="dashboard-header">
         <h1>Employee Dashboard</h1>
-        <p>Access to inventory and orders</p>
+        <p>Manage inventory and orders</p>
       </div>
 
       <div className="dashboard-grid">
@@ -98,11 +98,6 @@ const EmployeeDashboard = () => {
       </nav>
 
       <div className="dashboard-content">
-        <div className="dashboard-header">
-          <h1>Employee Dashboard</h1>
-          <p>Standard inventory operations</p>
-        </div>
-
         {renderView()}
       </div>
     </div>
