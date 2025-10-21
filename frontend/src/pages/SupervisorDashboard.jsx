@@ -35,8 +35,8 @@ const SupervisorDashboard = () => {
       navigate('/analytics')
     } else if (action === 'security_logs') {
       setShowSecurityLogs(true)
-    } else {
-      alert(`${action} - Coming soon!`)
+    } else if (action === 'ai_chat') {
+      navigate('/ai')
     }
   }
 
@@ -102,9 +102,9 @@ const SupervisorDashboard = () => {
           <span className="card-action">Access →</span>
         </div>
 
-        <div className="dashboard-card" onClick={() => handleAction('system_settings')}>
-          <h3>⚙️ System Settings</h3>
-          <p>Configure system parameters</p>
+        <div className="dashboard-card" onClick={() => handleAction('ai_chat')}>
+          <h3>🤖 AI Chat</h3>
+          <p>Talk to our Generative AI</p>
           <span className="card-action">Access →</span>
         </div>
       </div>

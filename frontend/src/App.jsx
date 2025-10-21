@@ -6,6 +6,7 @@ import EmployeeDashboard from './pages/EmployeeDashboard'
 import ContractorDashboard from './pages/ContractorDashboard'
 import Analytics from './pages/Analytics'
 import ProtectedRoute from './components/ProtectedRoute'
+import AIChat from "./pages/AIChat";
 import './App.css'
 
 function App() {
@@ -48,7 +49,14 @@ function App() {
               </ProtectedRoute>
             } 
           />
-          
+          <Route
+            path="/ai"
+            element={
+              <ProtectedRoute allowedRoles={['supervisor','employee','contractor']}>
+                <AIChat />
+              </ProtectedRoute>
+            }
+          />
           {/* Default redirect */}
           <Route path="/" element={<Navigate to="/login" replace />} />
         </Routes>

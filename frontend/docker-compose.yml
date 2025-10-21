@@ -31,10 +31,13 @@ services:
       - JWT_SECRET_KEY=your-jwt-secret-change-in-production
       - SECRET_KEY=your-flask-secret-change-in-production
       - FLASK_ENV=development
+      - OLLAMA_URL=http://ollama:11434
+      - LLM_MODEL=llama3:8b
     volumes:
       - ../backend:/app
     depends_on:
       - db
+      - ollama
     networks:
       - sakura_network
 
@@ -56,6 +59,18 @@ services:
       - backend
     networks:
       - sakura_network
+  
+  # Ollama Gen AI
+  ollama:
+    image: ollama/ollama:0.3.4
+    container_name: sakura_ollama
+    restart: always
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    networks:
+      - sakura_network
 
 networks:
   sakura_network:
@@ -63,3 +78,4 @@ networks:
 
 volumes:
   db_data:
+  ollama:
