@@ -592,9 +592,16 @@
   display: flex;
   gap: 12px;
   justify-content: flex-end;
+  align-items: center;
   margin-top: 32px;
   padding-top: 24px;
-  border-top: 1px solid #e0e0e0;
+}
+
+.modal-actions .btn {
+  height: 44px;
+  padding: 0 24px;
+  margin: 0;
+  line-height: 44px;
 }
 
 /* Responsive */
