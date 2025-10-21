@@ -65,14 +65,14 @@ CREATE TABLE `rule_based_detections` (
   `detection_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `session_id` varchar(64) DEFAULT NULL,
-  `last_analyzed_log_id` int(11) DEFAULT NULL,  -- NEW: Track which logs were analyzed
+  `last_analyzed_log_id` int(11) DEFAULT NULL,  -- Track which logs were analyzed
   `risk_score` int(11) DEFAULT 0,
   `risk_level` enum('Normal','Low Alert','Medium Alert','High Alert') DEFAULT 'Normal',
   `triggered_rules` text DEFAULT NULL,
   `explanation` text DEFAULT NULL,
   `detected_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  KEY `idx_user_session` (`user_id`, `session_id`),  -- NEW: Index for faster lookups
-  KEY `idx_last_log` (`last_analyzed_log_id`)  -- NEW: Index for log tracking
+  KEY `idx_user_session` (`user_id`, `session_id`),  -- Index for faster lookups
+  KEY `idx_last_log` (`last_analyzed_log_id`)  -- Index for log tracking
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -522,7 +522,7 @@ ALTER TABLE `user_logs`
 --
 ALTER TABLE `rule_based_detections`
   ADD CONSTRAINT `rule_detections_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
-  ADD CONSTRAINT `rule_detections_ibfk_2` FOREIGN KEY (`last_analyzed_log_id`) REFERENCES `user_logs` (`log_id`) ON DELETE SET NULL;  -- NEW: FK to track logs
+  ADD CONSTRAINT `rule_detections_ibfk_2` FOREIGN KEY (`last_analyzed_log_id`) REFERENCES `user_logs` (`log_id`) ON DELETE SET NULL;  -- FK to track logs
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
