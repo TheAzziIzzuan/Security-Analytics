@@ -1,9 +1,10 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from extensions import db
-from models import AnomalyScore, FlaggedActivity, UserLog
+from models import AnomalyScore, FlaggedActivity, UserLog, RuleBasedDetection
 from datetime import datetime, timedelta
 from services.detection import compute_anomaly_scores
+from services.rule_detection import RuleBasedDetection as RuleDetector
 
 bp = Blueprint('analytics', __name__, url_prefix='/api/analytics')
 
@@ -175,4 +176,99 @@ def get_user_risk_profile(user_id):
         }), 200
         
     except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@bp.route('/rule-based-detections', methods=['GET'])
+@jwt_required()
+def get_rule_based_detections():
+    """Get rule-based detections"""
+    try:
+        days = request.args.get('days', 7, type=int)
+        top = request.args.get('top', 50, type=int)
+        min_score = request.args.get('min_score', 0, type=int)
+        
+        start_date = datetime.utcnow() - timedelta(days=days)
+        
+        query = RuleBasedDetection.query.filter(
+            RuleBasedDetection.detected_at >= start_date,
+            RuleBasedDetection.risk_score >= min_score
+        ).order_by(RuleBasedDetection.detected_at.desc()).limit(top)
+        
+        detections = query.all()
+        
+        return jsonify({
+            'detections': [d.to_dict() for d in detections]
+        }), 200
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@bp.route('/run-rule-detection', methods=['POST'])
+@jwt_required()
+def run_rule_detection():
+    """Manual trigger to run rule-based detection"""
+    try:
+        detector = RuleDetector()
+        
+        data = request.json or {}
+        window_hours = data.get('window_hours', 24)
+        force_reprocess = data.get('force_reprocess', False)
+        
+        detections = detector.run_detection_for_all_users(
+            window_hours=window_hours,
+            force_reprocess=force_reprocess
+        )
+        
+        saved = []
+        skipped = 0
+        
+        # Build a set of (user_id, session_id) we've already saved in THIS run
+        saved_sessions = set()
+        
+        for d in detections:
+            session_key = (d['user_id'], d['session_id'])
+            
+            # Skip if we already saved this session in THIS run
+            if session_key in saved_sessions:
+                print(f"⏭️  Skipping duplicate in same run: user={d['user_id']}, session={d['session_id'][:12]}")
+                skipped += 1
+                continue
+            
+            # Build explanation from findings
+            findings_list = []
+            for f in d['findings']:
+                findings_list.append(f"{f['name']}: {f['description']} (+{f['points']} pts)")
+            
+            explanation = ' | '.join(findings_list)
+            triggered_rules = d.get('triggered_rules', '')
+            
+            # Create new detection record
+            detection = RuleBasedDetection(
+                user_id=d['user_id'],
+                session_id=d['session_id'],
+                last_analyzed_log_id=d.get('last_analyzed_log_id'),
+                risk_score=d['risk_score'],
+                risk_level=d['risk_level'],
+                triggered_rules=triggered_rules,
+                explanation=explanation,
+                detected_at=d['detected_at']
+            )
+            db.session.add(detection)
+            saved.append(d)
+            saved_sessions.add(session_key)
+        
+        db.session.commit()
+        
+        return jsonify({
+            'message': f'Detection completed. {len(saved)} new alerts, {skipped} duplicates skipped.',
+            'detections': saved,
+            'total_analyzed': len(detections),
+            'new_alerts': len(saved),
+            'skipped_duplicates': skipped
+        }), 200
+        
+    except Exception as e:
+        db.session.rollback()
         return jsonify({'error': str(e)}), 500

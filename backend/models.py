@@ -187,3 +187,35 @@ class FlaggedActivity(db.Model):
             'severity': self.severity,
             'flagged_at': self.flagged_at.isoformat() if self.flagged_at else None
         }
+
+
+class RuleBasedDetection(db.Model):
+    """Rule-based detection model"""
+    __tablename__ = 'rule_based_detections'
+    
+    detection_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=True)
+    session_id = db.Column(db.String(64), nullable=True)
+    last_analyzed_log_id = db.Column(db.Integer, db.ForeignKey('user_logs.log_id'), nullable=True)  # NEW
+    risk_score = db.Column(db.Integer, default=0)
+    risk_level = db.Column(db.Enum('Normal', 'Low Alert', 'Medium Alert', 'High Alert'), default='Normal')
+    triggered_rules = db.Column(db.Text, nullable=True)
+    explanation = db.Column(db.Text, nullable=True)
+    detected_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    
+    # Relationships
+    user = db.relationship('User', backref='rule_detections')
+    
+    def to_dict(self):
+        return {
+            'detection_id': self.detection_id,
+            'user_id': self.user_id,
+            'username': self.user.username if self.user else None,
+            'session_id': self.session_id,
+            'last_analyzed_log_id': self.last_analyzed_log_id,  # NEW
+            'risk_score': self.risk_score,
+            'risk_level': self.risk_level,
+            'triggered_rules': self.triggered_rules,
+            'explanation': self.explanation,
+            'detected_at': self.detected_at.isoformat() if self.detected_at else None
+        }

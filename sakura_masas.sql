@@ -57,6 +57,27 @@ INSERT INTO `anomaly_scores` (`score_id`, `user_id`, `session_id`, `risk_score`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `rule_based_detections`
+--
+
+DROP TABLE IF EXISTS `rule_based_detections`;
+CREATE TABLE `rule_based_detections` (
+  `detection_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `session_id` varchar(64) DEFAULT NULL,
+  `last_analyzed_log_id` int(11) DEFAULT NULL,  -- NEW: Track which logs were analyzed
+  `risk_score` int(11) DEFAULT 0,
+  `risk_level` enum('Normal','Low Alert','Medium Alert','High Alert') DEFAULT 'Normal',
+  `triggered_rules` text DEFAULT NULL,
+  `explanation` text DEFAULT NULL,
+  `detected_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  KEY `idx_user_session` (`user_id`, `session_id`),  -- NEW: Index for faster lookups
+  KEY `idx_last_log` (`last_analyzed_log_id`)  -- NEW: Index for log tracking
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Stand-in structure for view `flagged_activity`
 -- (See below for the actual view)
 --
@@ -408,6 +429,14 @@ ALTER TABLE `user_logs`
   ADD KEY `idx_user_logs_session` (`session_id`);
 
 --
+-- Indexes for table `rule_based_detections`
+--
+ALTER TABLE `rule_based_detections`
+  ADD PRIMARY KEY (`detection_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `idx_detected_at` (`detected_at`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -448,6 +477,12 @@ ALTER TABLE `user_logs`
   MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
+-- AUTO_INCREMENT for table `rule_based_detections`
+--
+ALTER TABLE `rule_based_detections`
+  MODIFY `detection_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -481,6 +516,13 @@ ALTER TABLE `users`
 --
 ALTER TABLE `user_logs`
   ADD CONSTRAINT `user_logs_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `rule_based_detections`
+--
+ALTER TABLE `rule_based_detections`
+  ADD CONSTRAINT `rule_detections_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `rule_detections_ibfk_2` FOREIGN KEY (`last_analyzed_log_id`) REFERENCES `user_logs` (`log_id`) ON DELETE SET NULL;  -- NEW: FK to track logs
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
