@@ -75,6 +75,12 @@ def update_user(user_id):
         if not user:
             return jsonify({'error': 'User not found'}), 404
         
+        # Prevent supervisor from changing their own role
+        if user_id == current_user_id and 'role_id' in data:
+            current_user = User.query.get(current_user_id)
+            if current_user and current_user.role_id == 2:  # 2 is Supervisor role
+                return jsonify({'error': 'You cannot change your own role'}), 403
+        
         # Update fields
         if 'role_id' in data:
             user.role_id = data['role_id']

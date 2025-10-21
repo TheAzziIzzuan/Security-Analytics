@@ -330,13 +330,16 @@ const UserManagement = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="edit-role_id">Role *</label>
+              <label htmlFor="edit-role_id">
+                Role {currentUser && currentUser.id === editingUserId && currentUser.role === 'supervisor' ? '(Read-only - Cannot change your own role)' : '*'}
+              </label>
               <select
                 id="edit-role_id"
                 name="role_id"
                 value={formData.role_id}
                 onChange={handleChange}
-                disabled={loading}
+                disabled={loading || (currentUser && currentUser.id === editingUserId && currentUser.role === 'supervisor')}
+                style={currentUser && currentUser.id === editingUserId && currentUser.role === 'supervisor' ? { backgroundColor: '#f5f5f5', cursor: 'not-allowed' } : {}}
               >
                 {roles.map(role => (
                   <option key={role.role_id} value={role.role_id}>
