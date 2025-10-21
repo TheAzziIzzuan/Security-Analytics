@@ -147,7 +147,7 @@ class AnomalyScore(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     session_id = db.Column(db.String(64))
     risk_score = db.Column(db.Numeric(5, 2))
-    risk_level = db.Column(db.Enum('Normal', 'Low Alert', 'Medium Alert', 'High Alert', 'Critical Alert'))
+    risk_level = db.Column(db.Enum('Normal', 'Low Alert', 'Medium Alert', 'High Alert'))
     explanation = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
@@ -198,7 +198,7 @@ class RuleBasedDetection(db.Model):
     session_id = db.Column(db.String(64), nullable=True)
     last_analyzed_log_id = db.Column(db.Integer, db.ForeignKey('user_logs.log_id'), nullable=True)  # NEW
     risk_score = db.Column(db.Integer, default=0)
-    risk_level = db.Column(db.Enum('Normal', 'Low Alert', 'Medium Alert', 'High Alert'), default='Normal')
+    risk_level = db.Column(db.Enum('Normal', 'Low Alert', 'Medium Alert', 'High Alert', 'Critical Alert'), default='Normal')
     triggered_rules = db.Column(db.Text, nullable=True)
     explanation = db.Column(db.Text, nullable=True)
     detected_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
