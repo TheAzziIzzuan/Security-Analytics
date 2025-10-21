@@ -67,7 +67,7 @@ CREATE TABLE `rule_based_detections` (
   `session_id` varchar(64) DEFAULT NULL,
   `last_analyzed_log_id` int(11) DEFAULT NULL,  -- Track which logs were analyzed
   `risk_score` int(11) DEFAULT 0,
-  `risk_level` enum('Normal','Low Alert','Medium Alert','High Alert') DEFAULT 'Normal',
+  `risk_level` enum('Normal','Low Alert','Medium Alert','High Alert','Critical Alert') DEFAULT 'Normal',
   `triggered_rules` text DEFAULT NULL,
   `explanation` text DEFAULT NULL,
   `detected_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -528,9 +528,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
--- ✅ UPDATE: Add 'Critical' to risk_level enum
-ALTER TABLE `anomaly_scores` 
-MODIFY COLUMN `risk_level` ENUM('Normal','Low Alert','Medium Alert','High Alert','Critical') DEFAULT NULL;
-
-ALTER TABLE `rule_based_detections` 
-MODIFY COLUMN `risk_level` ENUM('Normal','Low Alert','Medium Alert','High Alert','Critical') DEFAULT 'Normal';
