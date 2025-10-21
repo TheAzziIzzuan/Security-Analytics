@@ -528,3 +528,9 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- ✅ UPDATE: Add 'Critical' to risk_level enum
+ALTER TABLE `anomaly_scores` 
+MODIFY COLUMN `risk_level` ENUM('Normal','Low Alert','Medium Alert','High Alert','Critical') DEFAULT NULL;
+
+ALTER TABLE `rule_based_detections` 
+MODIFY COLUMN `risk_level` ENUM('Normal','Low Alert','Medium Alert','High Alert','Critical') DEFAULT 'Normal';

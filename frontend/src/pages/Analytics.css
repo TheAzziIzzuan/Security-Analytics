@@ -85,6 +85,7 @@
 .anomaly-card.medium-alert { border-left-color: #ff7043; }
 .anomaly-card.low-alert { border-left-color: #ffb300; }
 .anomaly-card.normal { border-left-color: #757575; }
+.anomaly-card.critical { border-left-color: #8b0000; }
 
 .score-badge {
   display: flex;
@@ -113,6 +114,10 @@
   background: linear-gradient(135deg, #f5f5f5 0%, #eeeeee 100%);
 }
 
+.anomaly-card.critical .score-badge {
+  background: linear-gradient(135deg, #ffebee 0%, #ef5350 100%);
+}
+
 .score-value {
   font-size: 32px;
   font-weight: 700;
@@ -124,6 +129,7 @@
 .anomaly-card.medium-alert .score-value { color: #ff7043; }
 .anomaly-card.low-alert .score-value { color: #ffb300; }
 .anomaly-card.normal .score-value { color: #757575; }
+.anomaly-card.critical .score-value { color: #8b0000; }
 
 .score-label {
   font-size: 11px;
@@ -189,6 +195,11 @@
 .anomaly-card.low-alert .finding-item {
   background: #fffef5;
   border-left-color: #ffb300;
+}
+
+.anomaly-card.critical .finding-item {
+  background: #ffebee;
+  border-left-color: #8b0000;
 }
 
 .finding-badge {

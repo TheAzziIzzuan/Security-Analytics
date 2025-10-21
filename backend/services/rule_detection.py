@@ -193,7 +193,7 @@ class RuleBasedDetection:
         risk_score = min(100, total_points)
         
         if risk_score >= 90:
-            risk_level = 'High Alert'
+            risk_level = 'Critical Alert'
         elif risk_score >= 70:
             risk_level = 'High Alert'
         elif risk_score >= 40:
@@ -260,7 +260,7 @@ class RuleBasedDetection:
     
     def _check_after_hours(self, logs, user):
         after_hours_logs = [l for l in logs if l.log_timestamp and 
-                           (l.log_timestamp.hour < 6 or l.log_timestamp.hour >= 22)]
+                           (l.log_timestamp.hour < 6 or l.log_timestamp.hour >= 23)]
         
         critical_actions = [l for l in after_hours_logs if 
                            l.action_type.lower() in ['export', 'edit', 'delete']]

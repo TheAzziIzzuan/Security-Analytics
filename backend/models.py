@@ -147,7 +147,7 @@ class AnomalyScore(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     session_id = db.Column(db.String(64))
     risk_score = db.Column(db.Numeric(5, 2))
-    risk_level = db.Column(db.Enum('Normal', 'Low Alert', 'Medium Alert', 'High Alert'))
+    risk_level = db.Column(db.Enum('Normal', 'Low Alert', 'Medium Alert', 'High Alert', 'Critical Alert'))
     explanation = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
