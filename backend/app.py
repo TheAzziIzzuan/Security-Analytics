@@ -8,7 +8,7 @@ from routes.ai_routes import ai_bp
 app = Flask(__name__)
 app.config.from_object(Config)
 
-# CORS: allow your Vite dev server
+# CORS: allow Vite dev server
 CORS(
     app,
     resources={r"/api/*": {"origins": ["http://localhost:5173", "http://127.0.0.1:5173"]}},
@@ -38,6 +38,7 @@ def add_cors_headers(response):
     if origin in ("http://localhost:5173", "http://127.0.0.1:5173"):
         response.headers["Access-Control-Allow-Origin"] = origin
         response.headers["Vary"] = "Origin"
+        response.headers["Access-Control-Allow-Credentials"] = "true"
         response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Session-Id"
         response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
     return response

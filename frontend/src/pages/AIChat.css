@@ -206,7 +206,7 @@
   border-radius: 12px;
   padding: 16px;
   background: #fff;
-  margin: 18px 0 6px 48px; /* indent to align with assistant bubble */
+  margin: 18px 0 6px 48px;
   box-shadow: 0 2px 8px rgba(0,0,0,.05);
 }
 
@@ -335,7 +335,6 @@
   box-shadow: 0 4px 12px rgba(149, 165, 166, 0.3);
 }
 
-/* Responsive tweaks */
 @media (max-width: 768px) {
   .ai-chat { margin: 16px auto; }
   .sql-card { margin-left: 0; }

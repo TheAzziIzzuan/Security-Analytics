@@ -9,8 +9,8 @@ export default function AIChat() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [q, setQ] = useState("");
-  const [history, setHistory] = useState([]);   // {role:'user'|'assistant', content:string}
-  const [sqlBlock, setSqlBlock] = useState(null); // {sql, columns, rows}
+  const [history, setHistory] = useState([]);
+  const [sqlBlock, setSqlBlock] = useState(null);
   const [loading, setLoading] = useState(false);
   const endRef = useRef(null);
 
@@ -45,7 +45,7 @@ export default function AIChat() {
       const data = await chat(msg, history);
       setHistory(h => [...h, { role: "assistant", content: data.reply || "(no reply)" }]);
       setQ("");
-      setSqlBlock(null); // hide SQL card for pure chat
+      setSqlBlock(null);
     } catch (e) {
       setHistory(h => [...h, { role: "assistant", content: `Error: ${e.message || e}` }]);
     } finally {
