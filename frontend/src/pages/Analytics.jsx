@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
+import { logActivity } from '../services/activityLogger'
 import './Analytics.css'
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 
 const Analytics = () => {
   const navigate = useNavigate()
+  const { user, logout } = useAuth()
   const [activeTab, setActiveTab] = useState('rule-based')
   const [ruleDetections, setRuleDetections] = useState([])
   const [baselineAnomalies, setBaselineAnomalies] = useState([])
@@ -81,6 +84,17 @@ const Analytics = () => {
   const viewLogs = (a) => {
     const detail = { user_id: a.user_id, start_date: a.created_at || a.detected_at }
     window.dispatchEvent(new CustomEvent('openSecurityLogs', { detail }))
+  }
+
+  const handleLogout = () => {
+    logActivity('logout_clicked', { role: user?.role })
+    logout()
+    navigate('/login')
+  }
+
+  const handleBack = () => {
+    logActivity('analytics_close_clicked', { role: user?.role })
+    navigate(-1)
   }
 
   const renderDetections = () => {
@@ -163,20 +177,32 @@ const Analytics = () => {
   }
 
   return (
-    <div className="analytics-page">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <h1>Reports & Analytics</h1>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          {autoRunning && <span style={{ color: '#1976d2', fontSize: '14px' }}>⚙️ Analyzing...</span>}
-          <button 
-            onClick={() => navigate(-1)} 
-            className="btn-back"
-            title="Back to Dashboard"
-          >
-            ✕ Close
-          </button>
+    <div className="analytics-container">
+      <nav className="analytics-nav">
+        <div className="nav-brand">
+          <h2>Sakura Masas</h2>
+          {user && <span className={`role-badge ${user.role?.toLowerCase()}`}>{user.role?.toUpperCase()}</span>}
         </div>
-      </div>
+        <div className="nav-user">
+          <span>Welcome, {user?.username}</span>
+          <button onClick={handleLogout} className="btn-logout">Logout</button>
+        </div>
+      </nav>
+
+      <div className="analytics-content">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+          <h1>Reports & Analytics</h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            {autoRunning && <span style={{ color: '#1976d2', fontSize: '14px' }}>⚙️ Analyzing...</span>}
+            <button 
+              onClick={handleBack} 
+              className="btn-back"
+              title="Back to Dashboard"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
       
       <div className="analytics-tabs">
         <button 
@@ -202,6 +228,7 @@ const Analytics = () => {
       </div>
 
       {renderDetections()}
+      </div>
     </div>
   )
 }

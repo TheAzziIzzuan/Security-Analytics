@@ -1,8 +1,13 @@
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { logActivity } from "../services/activityLogger";
 import { askSql, chat } from "../services/ai";
 import "./AIChat.css";
 
 export default function AIChat() {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const [q, setQ] = useState("");
   const [history, setHistory] = useState([]);   // {role:'user'|'assistant', content:string}
   const [sqlBlock, setSqlBlock] = useState(null); // {sql, columns, rows}
@@ -55,12 +60,46 @@ export default function AIChat() {
     }
   }
 
+  const handleLogout = () => {
+    logActivity('logout_clicked', { role: user?.role });
+    logout();
+    navigate('/login');
+  };
+
+  const handleBack = () => {
+    logActivity('ai_chat_close_clicked', { role: user?.role });
+    navigate(-1);
+  };
+
   return (
-    <div className="ai-chat">
-      <div className="ai-header">
-        <h2>Sakura Masas Generative AI</h2>
-        <p>Ask data questions (NL→SQL) or chat for explanations.</p>
-      </div>
+    <div className="ai-container">
+      <nav className="ai-nav">
+        <div className="nav-brand">
+          <h2>Sakura Masas</h2>
+          {user && <span className={`role-badge ${user.role?.toLowerCase()}`}>{user.role?.toUpperCase()}</span>}
+        </div>
+        <div className="nav-user">
+          <span>Welcome, {user?.username}</span>
+          <button onClick={handleLogout} className="btn-logout">Logout</button>
+        </div>
+      </nav>
+
+      <div className="ai-chat">
+        <div className="ai-header">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+            <div>
+              <h2>Sakura Masas Generative AI</h2>
+              <p>Ask data questions (NL→SQL) or chat for explanations.</p>
+            </div>
+            <button 
+              onClick={handleBack} 
+              className="btn-back"
+              title="Back to Dashboard"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
 
       <div className="ai-body">
         {/* Messages */}
@@ -125,6 +164,7 @@ export default function AIChat() {
             </button>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
