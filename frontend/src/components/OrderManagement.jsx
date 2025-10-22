@@ -356,11 +356,21 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
       {showAddModal && (
         <div className="modal-overlay" onClick={closeModals}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>Create New Order</h3>
+            <div className="modal-header">
+              <h3>➕ Create New Order</h3>
+              <button 
+                onClick={closeModals}
+                className="modal-close-btn"
+                aria-label="Close modal"
+              >
+                ✕
+              </button>
+            </div>
+            
             <form onSubmit={handleAddOrder}>
               {isSupervisor && (
                 <div className="form-group">
-                  <label>User *</label>
+                  <label>User <span className="required">*</span></label>
                   <select
                     name="user_id"
                     value={formData.user_id}
@@ -378,7 +388,7 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
               )}
 
               <div className="form-group">
-                <label>Item *</label>
+                <label>Item <span className="required">*</span></label>
                 <select
                   name="item_id"
                   value={formData.item_id}
@@ -395,7 +405,7 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
               </div>
 
               <div className="form-group">
-                <label>Quantity *</label>
+                <label>Quantity <span className="required">*</span></label>
                 <input
                   type="number"
                   name="quantity"
@@ -411,7 +421,7 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary">
-                  Create Order
+                  ➕ Create Order
                 </button>
               </div>
             </form>
@@ -423,7 +433,17 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
       {showEditModal && (
         <div className="modal-overlay" onClick={closeModals}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>Edit Order Quantity</h3>
+            <div className="modal-header">
+              <h3>✏️ Edit Order Quantity</h3>
+              <button 
+                onClick={closeModals}
+                className="modal-close-btn"
+                aria-label="Close modal"
+              >
+                ✕
+              </button>
+            </div>
+            
             <form onSubmit={handleEditOrder}>
               <div className="form-group">
                 <label>Item (Read-only)</label>
@@ -436,7 +456,7 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
               </div>
 
               <div className="form-group">
-                <label>Quantity *</label>
+                <label>Quantity <span className="required">*</span></label>
                 <input
                   type="number"
                   name="quantity"
@@ -452,7 +472,7 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary">
-                  Update Order
+                  ✓ Update Order
                 </button>
               </div>
             </form>

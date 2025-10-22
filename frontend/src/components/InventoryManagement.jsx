@@ -27,6 +27,9 @@ const InventoryManagement = ({ onClose }) => {
     quantity: 0
   })
 
+  // Form validation state
+  const [formErrors, setFormErrors] = useState({})
+
   // Role and stock tracking controls
   const { user: currentUser } = useAuth()
   const canEdit = currentUser?.role === 'supervisor' || currentUser?.role === 'admin'
@@ -69,6 +72,36 @@ const InventoryManagement = ({ onClose }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
+    // Clear error for this field when user starts typing
+    if (formErrors[name]) {
+      setFormErrors({ ...formErrors, [name]: '' })
+    }
+  }
+
+  const validateForm = () => {
+    const errors = {}
+    
+    if (!formData.item_name || formData.item_name.trim() === '') {
+      errors.item_name = 'Item name is required'
+    } else if (formData.item_name.length > 100) {
+      errors.item_name = 'Item name must be less than 100 characters'
+    }
+    
+    if (!formData.category || formData.category.trim() === '') {
+      errors.category = 'Category is required'
+    } else if (formData.category.length > 50) {
+      errors.category = 'Category must be less than 50 characters'
+    }
+    
+    if (formData.quantity === '' || formData.quantity === null) {
+      errors.quantity = 'Quantity is required'
+    } else if (Number(formData.quantity) < 0) {
+      errors.quantity = 'Quantity cannot be negative'
+    } else if (!Number.isInteger(Number(formData.quantity))) {
+      errors.quantity = 'Quantity must be a whole number'
+    }
+    
+    return errors
   }
 
   const handleAddItem = async (e) => {
@@ -76,11 +109,19 @@ const InventoryManagement = ({ onClose }) => {
     setError('')
     setSuccess('')
 
+    // Validate form
+    const errors = validateForm()
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors)
+      return
+    }
+
     try {
       const result = await inventoryService.createItem(formData)
       setSuccess('Item added successfully!')
       setShowAddModal(false)
       setFormData({ item_name: '', category: '', quantity: 0 })
+      setFormErrors({})
       loadInventory()
       
       logActivity('inventory_item_created', { 
@@ -103,12 +144,20 @@ const InventoryManagement = ({ onClose }) => {
     setError('')
     setSuccess('')
 
+    // Validate form
+    const errors = validateForm()
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors)
+      return
+    }
+
     try {
       await inventoryService.updateItem(currentItem.item_id, formData)
       setSuccess('Item updated successfully!')
       setShowEditModal(false)
       setCurrentItem(null)
       setFormData({ item_name: '', category: '', quantity: 0 })
+      setFormErrors({})
       loadInventory()
       
       logActivity('inventory_item_updated', { 
@@ -169,6 +218,7 @@ const InventoryManagement = ({ onClose }) => {
     setShowEditModal(false)
     setCurrentItem(null)
     setFormData({ item_name: '', category: '', quantity: 0 })
+    setFormErrors({})
     setError('')
     logActivity('inventory_modal_closed', {})
   }
@@ -378,45 +428,77 @@ const InventoryManagement = ({ onClose }) => {
       {showAddModal && (
         <div className="modal-overlay" onClick={closeModals}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>Add New Inventory Item</h3>
+            <div className="modal-header">
+              <h3>➕ Add New Inventory Item</h3>
+              <button 
+                onClick={closeModals}
+                className="modal-close-btn"
+                aria-label="Close modal"
+              >
+                ✕
+              </button>
+            </div>
+            
             <form onSubmit={handleAddItem}>
               <div className="form-group">
-                <label>
+                <label htmlFor="add-item-name">
                   Item Name <span className="required">*</span>
                 </label>
                 <input
+                  id="add-item-name"
                   type="text"
                   name="item_name"
                   value={formData.item_name}
                   onChange={handleInputChange}
                   required
-                  placeholder="e.g., Widget A"
+                  placeholder="e.g., Widget A, Server Memory, etc."
                   autoFocus
+                  maxLength="100"
+                  className={formErrors.item_name ? 'input-error' : ''}
                 />
+                {formErrors.item_name && (
+                  <span className="error-text">
+                    <span className="error-icon">⚠️</span>
+                    {formErrors.item_name}
+                  </span>
+                )}
+                <span className="char-count">{formData.item_name.length}/100</span>
               </div>
 
               <div className="form-group">
-                <label>Category</label>
+                <label htmlFor="add-category">
+                  Category <span className="required">*</span>
+                </label>
                 <input
+                  id="add-category"
                   type="text"
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
                   placeholder="Select or type a category"
                   list="categories-list"
+                  maxLength="50"
+                  className={formErrors.category ? 'input-error' : ''}
                 />
                 <datalist id="categories-list">
                   {categories.map((cat, idx) => (
                     <option key={idx} value={cat} />
                   ))}
                 </datalist>
+                {formErrors.category && (
+                  <span className="error-text">
+                    <span className="error-icon">⚠️</span>
+                    {formErrors.category}
+                  </span>
+                )}
               </div>
 
               <div className="form-group">
-                <label>
+                <label htmlFor="add-quantity">
                   Quantity <span className="required">*</span>
                 </label>
                 <input
+                  id="add-quantity"
                   type="number"
                   name="quantity"
                   value={formData.quantity}
@@ -424,7 +506,14 @@ const InventoryManagement = ({ onClose }) => {
                   required
                   min="0"
                   placeholder="0"
+                  className={formErrors.quantity ? 'input-error' : ''}
                 />
+                {formErrors.quantity && (
+                  <span className="error-text">
+                    <span className="error-icon">⚠️</span>
+                    {formErrors.quantity}
+                  </span>
+                )}
               </div>
 
               <div className="modal-actions">
@@ -444,45 +533,89 @@ const InventoryManagement = ({ onClose }) => {
       {showEditModal && (
         <div className="modal-overlay" onClick={closeModals}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>Edit Inventory Item</h3>
+            <div className="modal-header">
+              <h3>✏️ Edit Inventory Item</h3>
+              <button 
+                onClick={closeModals}
+                className="modal-close-btn"
+                aria-label="Close modal"
+              >
+                ✕
+              </button>
+            </div>
+            
             <form onSubmit={handleEditItem}>
               <div className="form-group">
-                <label>
+                <label htmlFor="edit-item-name">
                   Item Name <span className="required">*</span>
                 </label>
                 <input
+                  id="edit-item-name"
                   type="text"
                   name="item_name"
                   value={formData.item_name}
                   onChange={handleInputChange}
                   required
+                  maxLength="100"
                   autoFocus
+                  className={formErrors.item_name ? 'input-error' : ''}
                 />
+                {formErrors.item_name && (
+                  <span className="error-text">
+                    <span className="error-icon">⚠️</span>
+                    {formErrors.item_name}
+                  </span>
+                )}
+                <span className="char-count">{formData.item_name.length}/100</span>
               </div>
 
               <div className="form-group">
-                <label>Category</label>
+                <label htmlFor="edit-category">
+                  Category <span className="required">*</span>
+                </label>
                 <input
+                  id="edit-category"
                   type="text"
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
                   list="categories-list"
+                  maxLength="50"
+                  className={formErrors.category ? 'input-error' : ''}
                 />
+                <datalist id="categories-list">
+                  {categories.map((cat, idx) => (
+                    <option key={idx} value={cat} />
+                  ))}
+                </datalist>
+                {formErrors.category && (
+                  <span className="error-text">
+                    <span className="error-icon">⚠️</span>
+                    {formErrors.category}
+                  </span>
+                )}
               </div>
 
               <div className="form-group">
-                <label>
+                <label htmlFor="edit-quantity">
                   Quantity <span className="required">*</span>
                 </label>
                 <input
+                  id="edit-quantity"
                   type="number"
                   name="quantity"
                   value={formData.quantity}
                   onChange={handleInputChange}
                   required
                   min="0"
+                  className={formErrors.quantity ? 'input-error' : ''}
                 />
+                {formErrors.quantity && (
+                  <span className="error-text">
+                    <span className="error-icon">⚠️</span>
+                    {formErrors.quantity}
+                  </span>
+                )}
               </div>
 
               <div className="modal-actions">
