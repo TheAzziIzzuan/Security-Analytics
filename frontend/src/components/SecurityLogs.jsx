@@ -35,37 +35,47 @@ const SecurityLogs = ({ onClose } ) => {
             <button aria-label="close" onClick={onClose} className="btn-close">✕</button>
           </div>
 
-          {loading && <p>Loading...</p>}
-          {error && <p className="error">{error}</p>}
+          {loading && (
+            <div style={{ padding: '40px 24px', textAlign: 'center' }}>
+              <p style={{ fontSize: '16px', color: '#1976d2' }}>⚙️ Loading security logs...</p>
+            </div>
+          )}
+          {error && (
+            <p className="error">
+              ✕ Error: {error}
+            </p>
+          )}
 
           {!loading && !error && (
-            <table className="logs-table">
-              <thead>
-                <tr>
-                  <th>Time</th>
-                  <th>User</th>
-                  <th>Action</th>
-                  <th>Detail</th>
-                  <th>IP</th>
-                  <th>Type</th>
-                </tr>
-              </thead>
-              <tbody>
-                {logs.length === 0 && (
-                  <tr><td colSpan={6}>No logs found</td></tr>
-                )}
-                {logs.map(log => (
-                  <tr key={log.log_id}>
-                    <td>{new Date(log.timestamp).toLocaleString()}</td>
-                    <td>{log.username || log.user_id}</td>
-                    <td>{log.action_type}</td>
-                    <td className="detail">{log.action_detail}</td>
-                    <td>{log.ip_address}</td>
-                    <td>{log.log_type}</td>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+              <table className="logs-table">
+                <thead>
+                  <tr>
+                    <th>Time</th>
+                    <th>User</th>
+                    <th>Action</th>
+                    <th>Detail</th>
+                    <th>IP</th>
+                    <th>Type</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {logs.length === 0 && (
+                    <tr><td colSpan={6} style={{ textAlign: 'center', padding: '32px', color: '#7f8c8d' }}>No logs found</td></tr>
+                  )}
+                  {logs.map(log => (
+                    <tr key={log.log_id}>
+                      <td>{new Date(log.timestamp).toLocaleString()}</td>
+                      <td>{log.username || log.user_id}</td>
+                      <td>{log.action_type}</td>
+                      <td className="detail">{log.action_detail}</td>
+                      <td>{log.ip_address}</td>
+                      <td>{log.log_type}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </div>
