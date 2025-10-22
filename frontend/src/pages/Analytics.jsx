@@ -42,15 +42,20 @@ const Analytics = () => {
       console.log('🔍 Running detection analysis...')
       
       // Run both detections in parallel
-      await Promise.all([
+      const [ruleRes, baseRes] = await Promise.all([
         axios.post(`${API_URL}/api/analytics/run-rule-detection`, { window_hours: 720 }, { headers }),
         axios.post(`${API_URL}/api/analytics/run-detection`, {}, { headers })
       ])
-      
+
       console.log('✅ Detection complete')
-      
-      // Fetch fresh data after detection completes
-      await fetchData()
+
+      // If baseline returned structured anomalies, use them directly (includes std_pct/causes)
+      if (baseRes && baseRes.data && Array.isArray(baseRes.data.anomalies)) {
+        setBaselineAnomalies(baseRes.data.anomalies)
+      } else {
+        // otherwise fall back to fetch
+        await fetchData()
+      }
     } catch (err) {
       console.error('Auto-detection error:', err)
     } finally {
@@ -70,8 +75,10 @@ const Analytics = () => {
         const data = res.data.detections || []
         setRuleDetections(Array.isArray(data) ? data : [])
       } else {
-        const res = await axios.get(`${API_URL}/api/analytics/top-anomalies?top=50&min_score=0`, { headers })
-        const data = res.data && (res.data.anomalies || res.data)
+        // For baseline tab, fetch AnomalyScore rows (statistical baseline) only
+        const res = await axios.get(`${API_URL}/api/analytics/anomaly-scores?days=30`, { headers })
+        const data = res.data || []
+        // API returns array of AnomalyScore.to_dict objects
         setBaselineAnomalies(Array.isArray(data) ? data : [])
       }
     } catch (err) {
@@ -127,6 +134,11 @@ const Analytics = () => {
               <div className="score-badge">
                 <div className="score-value">{Math.round(a.risk_score || a.score || 0)}</div>
                 <div className="score-label">{a.risk_level || 'Unknown'}</div>
+                {activeTab === 'baseline' && (a.std_pct !== undefined) && (
+                  <div className="score-meta" style={{ fontSize: '12px', marginTop: '6px', color: '#666' }}>
+                    std: {a.std_pct}%
+                  </div>
+                )}
               </div>
               
               <div className="info">
@@ -164,9 +176,38 @@ const Analytics = () => {
                   </div>
                 )}
                 
-                {/* BASELINE: Keep original simple format */}
-                {activeTab === 'baseline' && (a.description || a.explanation) && (
-                  <div className="description">{a.description || a.explanation}</div>
+                {/* BASELINE: show structured findings when present (std_pct, causes, findings) */}
+                {activeTab === 'baseline' && (
+                  <div className="findings">
+                    {a.deviation_pct !== undefined && (
+                      <div className="finding-item"><strong>Deviation:</strong> {a.deviation_pct}% (std: {a.std_pct || 'N/A'}%)</div>
+                    )}
+
+                    {a.causes && a.causes.length > 0 && (() => {
+                      const names = (a.causes_detail && a.causes_detail.length > 0)
+                        ? a.causes_detail.map(c => `${c.name}${c.value !== undefined ? ` (${c.value})` : ''}`)
+                        : a.causes;
+                      const top = names.slice(0, 2).join(', ')
+                      const more = names.length > 2 ? ` (+${names.length - 2} more)` : ''
+                      return (
+                        <div className="finding-item">
+                          <strong>Causes:</strong> {top}{more}
+                        </div>
+                      )
+                    })()}
+
+                    {a.findings && a.findings.length > 0 && a.findings.map((f, idx) => (
+                      <div key={idx} className="finding-item">
+                        <span className="finding-badge">{f.name}</span>
+                        <span className="finding-detail">{f.description} {f.points ? `(+${f.points} pts)` : ''}</span>
+                      </div>
+                    ))}
+
+                    {/* fallback to explanation text if nothing structured */}
+                    {(!a.findings || a.findings.length === 0) && (a.explanation) && (
+                      <div className="description">{a.explanation}</div>
+                    )}
+                  </div>
                 )}
               </div>
             </div>

@@ -66,6 +66,13 @@ class RuleBasedDetection:
                 'description': 'High volume view operations (reconnaissance)'
             }
         }
+        # Add admin access rule explicitly (accessing admin pages by non-supervisors)
+        self.rules['admin_access'] = {
+            'points': 40,
+            'name': 'Unauthorized Admin Access',
+            'mitre_id': 'T1078',
+            'description': 'Access to admin pages or privileged operations by non-admins'
+        }
     
     def get_last_detection(self, user_id, session_id):
         """Get the most recent detection for this user+session"""
@@ -110,7 +117,8 @@ class RuleBasedDetection:
             for session_id in session_ids:
                 # Get last detection
                 last_detection = None if force_reprocess else self.get_last_detection(user_id, session_id)
-                last_analyzed_log_id = last_detection.last_analyzed_log_id if last_detection else 0
+                # guard against None last_analyzed_log_id from seeded rows
+                last_analyzed_log_id = (last_detection.last_analyzed_log_id if last_detection and last_detection.last_analyzed_log_id is not None else 0)
                 
                 # Get ALL logs in window
                 all_logs = UserLog.query.filter(
@@ -158,12 +166,18 @@ class RuleBasedDetection:
         if not user:
             return None
         
-        now = datetime.utcnow()
+        # Use the latest log timestamp in the session as the reference time so
+        # checks using timeframes work correctly for historical/seeded logs
+        try:
+            now = max((l.log_timestamp for l in logs if getattr(l, 'log_timestamp', None)))
+        except Exception:
+            now = datetime.utcnow()
         
         findings = []
         total_points = 0
         
         checks = [
+            self._check_admin_access,
             self._check_failed_logins,
             self._check_mass_exports,
             self._check_after_hours,
@@ -226,11 +240,35 @@ class RuleBasedDetection:
         }
     
     def _check_failed_logins(self, logs, user):
-        timeframe = datetime.utcnow() - timedelta(minutes=self.rules['failed_logins']['timeframe_minutes'])
-        failed_logins = [l for l in logs if 
-                        l.action_type.lower() in ['loginfail', 'login_fail', 'failed_login'] and 
-                        l.log_timestamp >= timeframe]
-        
+        # reference timeframe anchored to the latest log in the session
+        try:
+            latest = max((l.log_timestamp for l in logs if getattr(l, 'log_timestamp', None)))
+        except Exception:
+            latest = datetime.utcnow()
+
+        timeframe = latest - timedelta(minutes=self.rules['failed_logins']['timeframe_minutes'])
+        failed_logins = []
+        for l in logs:
+            if not getattr(l, 'log_timestamp', None) or l.log_timestamp < timeframe:
+                continue
+            at = (getattr(l, 'action_type', '') or '').lower()
+            ad = (getattr(l, 'action_detail', '') or '').lower()
+            lt = (getattr(l, 'log_type', '') or '').lower()
+
+            # consider many representations: action_type, action_detail, log_type
+            is_failed = False
+            if 'login' in at and ('fail' in at or 'failed' in at):
+                is_failed = True
+            if 'failed' in ad and 'login' in ad:
+                is_failed = True
+            if at in ['loginfail', 'login_fail', 'failed_login', 'login_failed', 'auth_fail']:
+                is_failed = True
+            if lt == 'auth' and ('fail' in ad or 'failed' in ad):
+                is_failed = True
+
+            if is_failed:
+                failed_logins.append(l)
+
         if len(failed_logins) >= self.rules['failed_logins']['threshold']:
             return {
                 'rule': 'failed_logins',
@@ -244,8 +282,16 @@ class RuleBasedDetection:
         return None
     
     def _check_mass_exports(self, logs, user):
-        exports = [l for l in logs if l.action_type.lower() == 'export']
-        
+        exports = []
+        for l in logs:
+            at = (getattr(l, 'action_type', '') or '').lower()
+            ad = (getattr(l, 'action_detail', '') or '').lower()
+            pu = (getattr(l, 'page_url', '') or '').lower()
+            lt = (getattr(l, 'log_type', '') or '').lower()
+
+            if at == 'export' or 'export' in ad or 'export' in pu or lt == 'data_access' or at in ('download', 'bulk_export'):
+                exports.append(l)
+
         if len(exports) >= self.rules['mass_export']['threshold']:
             return {
                 'rule': 'mass_export',
@@ -277,8 +323,14 @@ class RuleBasedDetection:
         return None
     
     def _check_velocity_anomaly(self, logs, user):
-        recent_hour = datetime.utcnow() - timedelta(minutes=self.rules['velocity_anomaly']['timeframe_minutes'])
-        recent_logs = [l for l in logs if l.log_timestamp >= recent_hour]
+        # anchor velocity check to the latest log timestamp in the session
+        try:
+            latest = max((l.log_timestamp for l in logs if getattr(l, 'log_timestamp', None)))
+        except Exception:
+            latest = datetime.utcnow()
+
+        recent_hour = latest - timedelta(minutes=self.rules['velocity_anomaly']['timeframe_minutes'])
+        recent_logs = [l for l in logs if getattr(l, 'log_timestamp', None) and l.log_timestamp >= recent_hour]
         
         if len(recent_logs) >= self.rules['velocity_anomaly']['threshold']:
             return {
@@ -292,7 +344,8 @@ class RuleBasedDetection:
         return None
     
     def _check_privilege_escalation(self, logs, user):
-        role_name = user.role.role_name if user.role else 'unknown'
+        role_name = (user.role.role_name if user.role else 'unknown')
+        role_name = role_name.lower() if isinstance(role_name, str) else role_name
         violations = []
         
         if role_name == 'contractor':
@@ -309,6 +362,34 @@ class RuleBasedDetection:
                 'count': len(violations),
                 'description': f"{role_name} violated RBAC: {len(violations)} unauthorized operation(s)",
                 'points': self.rules['privilege_escalation']['points']
+            }
+        return None
+
+    def _check_admin_access(self, logs, user):
+        """Flag admin page accesses or admin actions performed by non-supervisors."""
+        role_name = (user.role.role_name if user.role else '').lower()
+        # supervisors are allowed
+        if role_name == 'supervisor':
+            return None
+
+        admin_hits = []
+        for l in logs:
+            pu = (getattr(l, 'page_url', '') or '').lower()
+            ad = (getattr(l, 'action_detail', '') or '').lower()
+            at = (getattr(l, 'action_type', '') or '').lower()
+            # admin patterns: page under /admin, action mentioning 'admin' or 'user management', or named admin actions
+            if '/admin' in pu or 'admin' in ad or at in ('add_user', 'admin_action', 'assume_role'):
+                admin_hits.append(l)
+
+        if admin_hits:
+            return {
+                'rule': 'admin_access',
+                'name': self.rules['admin_access']['name'],
+                'mitre_id': self.rules['admin_access'].get('mitre_id', ''),
+                'severity': 'High',
+                'count': len(admin_hits),
+                'description': f"{len(admin_hits)} admin/privileged actions by non-supervisor role ({role_name})",
+                'points': self.rules['admin_access']['points']
             }
         return None
     
