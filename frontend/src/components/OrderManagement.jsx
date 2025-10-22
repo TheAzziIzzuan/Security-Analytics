@@ -20,6 +20,11 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
   const [showEditModal, setShowEditModal] = useState(false)
   const [currentOrder, setCurrentOrder] = useState(null)
   
+  // Delete confirmation modal state
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [deleteOrderId, setDeleteOrderId] = useState(null)
+  const [deleteItemName, setDeleteItemName] = useState('')
+  
   // Form data
   const [formData, setFormData] = useState({
     user_id: '',
@@ -140,27 +145,41 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
     }
   }
 
-  const handleDeleteOrder = async (order) => {
+  const handleDeleteOrder = (order) => {
     logActivity('order_delete_clicked', { order_id: order.order_id })
-    if (!window.confirm(`Are you sure you want to cancel this order for ${order.item_name}?`)) {
-      logActivity('order_delete_cancelled', { order_id: order.order_id })
-      return
-    }
+    setDeleteOrderId(order.order_id)
+    setDeleteItemName(order.item_name)
+    setShowDeleteConfirm(true)
+  }
+
+  const confirmDeleteOrder = async () => {
+    if (!deleteOrderId) return
 
     try {
-      await orderService.deleteOrder(order.order_id)
+      await orderService.deleteOrder(deleteOrderId)
       setSuccess('Order cancelled successfully!')
       loadOrders()
       loadInventory() // Reload to update quantities
       
       logActivity('order_deleted', { 
-        order_id: order.order_id,
-        item_name: order.item_name 
+        order_id: deleteOrderId,
+        item_name: deleteItemName 
       })
     } catch (err) {
       setError(err.message)
       logActivity('order_delete_failed', { error: err.message })
+    } finally {
+      setShowDeleteConfirm(false)
+      setDeleteOrderId(null)
+      setDeleteItemName('')
     }
+  }
+
+  const cancelDeleteOrder = () => {
+    logActivity('order_delete_cancelled', { order_id: deleteOrderId })
+    setShowDeleteConfirm(false)
+    setDeleteOrderId(null)
+    setDeleteItemName('')
   }
 
   const openEditModal = (order) => {
@@ -177,13 +196,31 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
   const closeModals = () => {
     setShowAddModal(false)
     setShowEditModal(false)
+    setShowDeleteConfirm(false)
     setCurrentOrder(null)
+    setDeleteOrderId(null)
+    setDeleteItemName('')
     setFormData({ user_id: '', item_id: '', quantity: 1 })
     setError('')
     logActivity('order_modal_closed', {})
   }
 
   const isSupervisor = currentUser?.role === 'supervisor' || currentUser?.role === 'admin'
+
+  // Auto-dismiss success/error messages
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => setSuccess(''), 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [success])
+
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(''), 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [error])
 
   // Export orders to CSV
   const exportOrdersCSV = () => {
@@ -228,6 +265,10 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
         )}
       </div>
 
+      {/* Toast Notifications */}
+      {success && <div className="success-message">{success}</div>}
+      {error && <div className="error-message">{error}</div>}
+
       {/* Filters and Actions */}
       <div className="order-controls">
         <div className="filters">
@@ -260,24 +301,25 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
           </select>
         </div>
 
-        <button 
-          onClick={() => { setShowAddModal(true); logActivity('order_add_modal_open', {}) }} 
-          className="btn btn-primary"
-        >
-          {addBtnLabel}
-        </button>
-        <button 
-          onClick={exportOrdersCSV}
-          className="btn btn-secondary"
-          style={{ marginLeft: '8px' }}
-        >
-          ⬇️ Export CSV
-        </button>
+        <div className="order-controls-buttons">
+          <button 
+            onClick={() => { setShowAddModal(true); logActivity('order_add_modal_open', {}) }} 
+            className="btn btn-primary"
+          >
+            {addBtnLabel}
+          </button>
+          <button 
+            onClick={exportOrdersCSV}
+            className="btn btn-secondary"
+          >
+            ⬇️ Export CSV
+          </button>
+        </div>
       </div>
 
       {/* Orders Table */}
       {loading ? (
-        <div className="loading">Loading orders...</div>
+        <div className="loading">⚙️ Loading orders...</div>
       ) : (
         <div className="order-table-container">
           <table className="order-table">
@@ -336,11 +378,21 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
       {showAddModal && (
         <div className="modal-overlay" onClick={closeModals}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>Create New Order</h3>
+            <div className="modal-header">
+              <h3>➕ Create New Order</h3>
+              <button 
+                onClick={closeModals}
+                className="modal-close-btn"
+                aria-label="Close modal"
+              >
+                ✕
+              </button>
+            </div>
+            
             <form onSubmit={handleAddOrder}>
               {isSupervisor && (
                 <div className="form-group">
-                  <label>User *</label>
+                  <label>User <span className="required">*</span></label>
                   <select
                     name="user_id"
                     value={formData.user_id}
@@ -358,7 +410,7 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
               )}
 
               <div className="form-group">
-                <label>Item *</label>
+                <label>Item <span className="required">*</span></label>
                 <select
                   name="item_id"
                   value={formData.item_id}
@@ -375,7 +427,7 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
               </div>
 
               <div className="form-group">
-                <label>Quantity *</label>
+                <label>Quantity <span className="required">*</span></label>
                 <input
                   type="number"
                   name="quantity"
@@ -391,7 +443,7 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary">
-                  Create Order
+                  ➕ Create Order
                 </button>
               </div>
             </form>
@@ -403,7 +455,17 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
       {showEditModal && (
         <div className="modal-overlay" onClick={closeModals}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>Edit Order Quantity</h3>
+            <div className="modal-header">
+              <h3>✏️ Edit Order Quantity</h3>
+              <button 
+                onClick={closeModals}
+                className="modal-close-btn"
+                aria-label="Close modal"
+              >
+                ✕
+              </button>
+            </div>
+            
             <form onSubmit={handleEditOrder}>
               <div className="form-group">
                 <label>Item (Read-only)</label>
@@ -416,7 +478,7 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
               </div>
 
               <div className="form-group">
-                <label>Quantity *</label>
+                <label>Quantity <span className="required">*</span></label>
                 <input
                   type="number"
                   name="quantity"
@@ -432,10 +494,42 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary">
-                  Update Order
+                  ✓ Update Order
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && (
+        <div className="modal-overlay" onClick={cancelDeleteOrder}>
+          <div className="modal-content confirmation-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>🗑️ Cancel Order</h3>
+              <button 
+                onClick={cancelDeleteOrder}
+                className="modal-close-btn"
+                aria-label="Close modal"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <div className="confirmation-message">
+              <p>Are you sure you want to cancel the order for <strong>"{deleteItemName}"</strong>?</p>
+              <p className="warning-text">This action cannot be undone.</p>
+            </div>
+            
+            <div className="modal-actions">
+              <button type="button" className="btn btn-secondary" onClick={cancelDeleteOrder}>
+                Cancel
+              </button>
+              <button type="button" className="btn-delete-confirm" onClick={confirmDeleteOrder}>
+                🗑️ Cancel Order
+              </button>
+            </div>
           </div>
         </div>
       )}

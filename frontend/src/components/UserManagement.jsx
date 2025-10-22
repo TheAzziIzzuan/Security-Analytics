@@ -263,9 +263,18 @@ const UserManagement = ({ onClose }) => {
       {success && <div className="success-message">{success}</div>}
 
       {showAddUser && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3>Create New User</h3>
+        <div className="modal-overlay" onClick={() => setShowAddUser(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>➕ Create New User</h3>
+              <button 
+                onClick={() => setShowAddUser(false)}
+                className="modal-close-btn"
+                aria-label="Close modal"
+              >
+                ✕
+              </button>
+            </div>
             
             {error && <div className="error-message">{error}</div>}
             
@@ -344,11 +353,11 @@ const UserManagement = ({ onClose }) => {
               </div>
 
               <div className="modal-actions">
-                <button type="submit" className="btn-submit" disabled={loading}>
-                  {loading ? 'Creating User...' : 'Create User'}
-                </button>
                 <button type="button" className="btn-cancel" onClick={() => setShowAddUser(false)} disabled={loading}>
                   Cancel
+                </button>
+                <button type="submit" className="btn-submit" disabled={loading}>
+                  {loading ? 'Creating User...' : 'Create User'}
                 </button>
               </div>
             </form>
@@ -357,9 +366,18 @@ const UserManagement = ({ onClose }) => {
       )}
 
       {showEditUser && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3>Edit User</h3>
+        <div className="modal-overlay" onClick={cancelEdit}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>✏️ Edit User</h3>
+              <button 
+                onClick={cancelEdit}
+                className="modal-close-btn"
+                aria-label="Close modal"
+              >
+                ✕
+              </button>
+            </div>
             
             {error && <div className="error-message">{error}</div>}
             
@@ -409,11 +427,11 @@ const UserManagement = ({ onClose }) => {
               </div>
 
               <div className="modal-actions">
-                <button type="submit" className="btn-submit" disabled={loading}>
-                  {loading ? 'Updating User...' : 'Update User'}
-                </button>
                 <button type="button" className="btn-cancel" onClick={cancelEdit} disabled={loading}>
                   Cancel
+                </button>
+                <button type="submit" className="btn-submit" disabled={loading}>
+                  {loading ? 'Updating User...' : 'Update User'}
                 </button>
               </div>
             </form>
@@ -422,10 +440,23 @@ const UserManagement = ({ onClose }) => {
       )}
 
       {showDeleteConfirm && (
-        <div className="modal-overlay">
-          <div className="modal-content confirmation-modal">
-            <h3>Delete User</h3>
-            <p className="confirmation-text">Are you sure you want to delete user <strong>"{deleteUsername}"</strong>? This action cannot be undone.</p>
+        <div className="modal-overlay" onClick={cancelDelete}>
+          <div className="modal-content confirmation-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>🗑️ Delete User</h3>
+              <button 
+                onClick={cancelDelete}
+                className="modal-close-btn"
+                aria-label="Close modal"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <div className="confirmation-message">
+              <p>Are you sure you want to delete user <strong>"{deleteUsername}"</strong>?</p>
+              <p className="warning-text">This action cannot be undone.</p>
+            </div>
             
             <div className="modal-actions">
               <button type="button" className="btn-cancel" onClick={cancelDelete} disabled={loading}>

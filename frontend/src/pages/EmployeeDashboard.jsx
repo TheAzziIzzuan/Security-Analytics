@@ -64,12 +64,6 @@ const EmployeeDashboard = () => {
           <p>Place and track your orders</p>
           <span className="card-action">Access →</span>
         </div>
-
-        <div className="dashboard-card" onClick={() => handleAction('my_activity')}>
-          <h3>📊 My Activity</h3>
-          <p>View your activity logs</p>
-          <span className="card-action">Access →</span>
-        </div>
       </div>
 
       <div className="info-section">

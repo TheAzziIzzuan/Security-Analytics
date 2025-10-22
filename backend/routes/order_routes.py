@@ -83,32 +83,47 @@ def create_order():
     """Create a new order"""
     try:
         user_id = get_current_user_id()
-        data = request.get_json()
+        data = request.get_json() or {}
         
-        # Validate required fields
-        if not data.get('item_id') or not data.get('quantity'):
+        # Validate required fields and types
+        item_id = data.get('item_id')
+        quantity_raw = data.get('quantity')
+        try:
+            quantity = int(quantity_raw)
+        except (TypeError, ValueError):
+            return jsonify({'error': 'quantity must be an integer'}), 400
+        
+        if not item_id or quantity is None:
             return jsonify({'error': 'item_id and quantity are required'}), 400
         
         # Check if item exists
-        item = InventoryItem.query.get(data['item_id'])
+        item = InventoryItem.query.get(item_id)
         if not item:
             return jsonify({'error': 'Item not found'}), 404
         
         # Check if sufficient quantity available
-        if item.quantity < data['quantity']:
-            return jsonify({'error': f'Insufficient inventory. Only {item.quantity} available'}), 400
+        try:
+            available_qty = int(item.quantity)
+        except (TypeError, ValueError):
+            return jsonify({'error': 'Inventory quantity data is invalid'}), 500
+        
+        if available_qty < quantity:
+            return jsonify({'error': f'Insufficient inventory. Only {available_qty} available'}), 400
+        
+        # Update inventory quantity
+        item.quantity = available_qty - quantity
         
         # Create new order (can be for current user or specified user if supervisor)
         order_user_id = data.get('user_id', user_id)  # Default to current user
         
         new_order = Order(
             user_id=order_user_id,
-            item_id=data['item_id'],
-            quantity=data['quantity']
+            item_id=item_id,
+            quantity=quantity
         )
         
         # Update inventory quantity
-        item.quantity -= data['quantity']
+        item.quantity -= quantity
         
         db.session.add(new_order)
         db.session.commit()
@@ -138,7 +153,7 @@ def update_order(order_id):
     """Update an existing order"""
     try:
         user_id = get_current_user_id()
-        data = request.get_json()
+        data = request.get_json() or {}
         
         order = Order.query.get(order_id)
         
@@ -151,16 +166,28 @@ def update_order(order_id):
             return jsonify({'error': 'Associated item not found'}), 404
         
         # If quantity is being updated, adjust inventory
-        if 'quantity' in data and data['quantity'] != order.quantity:
-            quantity_diff = data['quantity'] - order.quantity
+        if 'quantity' in data:
+            try:
+                new_quantity = int(data['quantity'])
+            except (TypeError, ValueError):
+                return jsonify({'error': 'quantity must be an integer'}), 400
             
-            # Check if sufficient inventory for increase
-            if quantity_diff > 0 and item.quantity < quantity_diff:
-                return jsonify({'error': f'Insufficient inventory. Only {item.quantity} additional units available'}), 400
-            
-            # Update inventory
-            item.quantity -= quantity_diff
-            order.quantity = data['quantity']
+            if new_quantity != order.quantity:
+                quantity_diff = new_quantity - order.quantity
+                
+                # Ensure inventory quantity is integer
+                try:
+                    current_item_qty = int(item.quantity)
+                except (TypeError, ValueError):
+                    return jsonify({'error': 'Inventory quantity data is invalid'}), 500
+                
+                # Check if sufficient inventory for increase
+                if quantity_diff > 0 and current_item_qty < quantity_diff:
+                    return jsonify({'error': f'Insufficient inventory. Only {current_item_qty} additional units available'}), 400
+                
+                # Update inventory
+                item.quantity = current_item_qty - quantity_diff
+                order.quantity = new_quantity
         
         db.session.commit()
         

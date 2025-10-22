@@ -136,7 +136,10 @@ def update_item(item_id):
         if 'category' in data or 'description' in data:
             item.description = data.get('category') or data.get('description')
         if 'quantity' in data:
-            item.quantity = data['quantity']
+            try:
+                item.quantity = int(data['quantity'])
+            except (TypeError, ValueError):
+                return jsonify({'error': 'quantity must be an integer'}), 400
         
         db.session.commit()
         
