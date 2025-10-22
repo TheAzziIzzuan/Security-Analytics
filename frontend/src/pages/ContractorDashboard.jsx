@@ -46,12 +46,6 @@ const ContractorDashboard = () => {
           <p>Browse available inventory items (Read-Only)</p>
           <span className="card-action">Access →</span>
         </div>
-
-        <div className="dashboard-card" onClick={() => handleAction('my_activity')}>
-          <h3>📊 My Activity</h3>
-          <p>View your access logs</p>
-          <span className="card-action">Access →</span>
-        </div>
       </div>
 
       <div className="info-section">
