@@ -20,6 +20,11 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
   const [showEditModal, setShowEditModal] = useState(false)
   const [currentOrder, setCurrentOrder] = useState(null)
   
+  // Delete confirmation modal state
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [deleteOrderId, setDeleteOrderId] = useState(null)
+  const [deleteItemName, setDeleteItemName] = useState('')
+  
   // Form data
   const [formData, setFormData] = useState({
     user_id: '',
@@ -140,27 +145,41 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
     }
   }
 
-  const handleDeleteOrder = async (order) => {
+  const handleDeleteOrder = (order) => {
     logActivity('order_delete_clicked', { order_id: order.order_id })
-    if (!window.confirm(`Are you sure you want to cancel this order for ${order.item_name}?`)) {
-      logActivity('order_delete_cancelled', { order_id: order.order_id })
-      return
-    }
+    setDeleteOrderId(order.order_id)
+    setDeleteItemName(order.item_name)
+    setShowDeleteConfirm(true)
+  }
+
+  const confirmDeleteOrder = async () => {
+    if (!deleteOrderId) return
 
     try {
-      await orderService.deleteOrder(order.order_id)
+      await orderService.deleteOrder(deleteOrderId)
       setSuccess('Order cancelled successfully!')
       loadOrders()
       loadInventory() // Reload to update quantities
       
       logActivity('order_deleted', { 
-        order_id: order.order_id,
-        item_name: order.item_name 
+        order_id: deleteOrderId,
+        item_name: deleteItemName 
       })
     } catch (err) {
       setError(err.message)
       logActivity('order_delete_failed', { error: err.message })
+    } finally {
+      setShowDeleteConfirm(false)
+      setDeleteOrderId(null)
+      setDeleteItemName('')
     }
+  }
+
+  const cancelDeleteOrder = () => {
+    logActivity('order_delete_cancelled', { order_id: deleteOrderId })
+    setShowDeleteConfirm(false)
+    setDeleteOrderId(null)
+    setDeleteItemName('')
   }
 
   const openEditModal = (order) => {
@@ -177,7 +196,10 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
   const closeModals = () => {
     setShowAddModal(false)
     setShowEditModal(false)
+    setShowDeleteConfirm(false)
     setCurrentOrder(null)
+    setDeleteOrderId(null)
+    setDeleteItemName('')
     setFormData({ user_id: '', item_id: '', quantity: 1 })
     setError('')
     logActivity('order_modal_closed', {})
@@ -476,6 +498,38 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && (
+        <div className="modal-overlay" onClick={cancelDeleteOrder}>
+          <div className="modal-content confirmation-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>🗑️ Cancel Order</h3>
+              <button 
+                onClick={cancelDeleteOrder}
+                className="modal-close-btn"
+                aria-label="Close modal"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <div className="confirmation-message">
+              <p>Are you sure you want to cancel the order for <strong>"{deleteItemName}"</strong>?</p>
+              <p className="warning-text">This action cannot be undone.</p>
+            </div>
+            
+            <div className="modal-actions">
+              <button type="button" className="btn btn-secondary" onClick={cancelDeleteOrder}>
+                Cancel
+              </button>
+              <button type="button" className="btn-delete-confirm" onClick={confirmDeleteOrder}>
+                🗑️ Cancel Order
+              </button>
+            </div>
           </div>
         </div>
       )}

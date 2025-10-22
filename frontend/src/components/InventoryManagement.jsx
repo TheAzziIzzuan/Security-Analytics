@@ -20,6 +20,11 @@ const InventoryManagement = ({ onClose }) => {
   const [showEditModal, setShowEditModal] = useState(false)
   const [currentItem, setCurrentItem] = useState(null)
   
+  // Delete confirmation modal state
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [deleteItemId, setDeleteItemId] = useState(null)
+  const [deleteItemName, setDeleteItemName] = useState('')
+  
   // Form data
   const [formData, setFormData] = useState({
     item_name: '',
@@ -175,21 +180,24 @@ const InventoryManagement = ({ onClose }) => {
     }
   }
 
-  const handleDeleteItem = async (item) => {
+  const handleDeleteItem = (item) => {
     logActivity('inventory_delete_clicked', { item_id: item.item_id })
-    if (!window.confirm(`Are you sure you want to delete "${item.item_name}"?`)) {
-      logActivity('inventory_delete_cancelled', { item_id: item.item_id })
-      return
-    }
+    setDeleteItemId(item.item_id)
+    setDeleteItemName(item.item_name)
+    setShowDeleteConfirm(true)
+  }
+
+  const confirmDeleteItem = async () => {
+    if (!deleteItemId) return
 
     try {
-      await inventoryService.deleteItem(item.item_id)
+      await inventoryService.deleteItem(deleteItemId)
       setSuccess('Item deleted successfully!')
       loadInventory()
       
       logActivity('inventory_item_deleted', { 
-        item_id: item.item_id,
-        item_name: item.item_name 
+        item_id: deleteItemId,
+        item_name: deleteItemName 
       })
 
       // Auto-dismiss success message
@@ -199,7 +207,18 @@ const InventoryManagement = ({ onClose }) => {
       logActivity('inventory_item_delete_failed', { error: err.message })
       // Auto-dismiss error message
       setTimeout(() => setError(''), 5000)
+    } finally {
+      setShowDeleteConfirm(false)
+      setDeleteItemId(null)
+      setDeleteItemName('')
     }
+  }
+
+  const cancelDeleteItem = () => {
+    logActivity('inventory_delete_cancelled', { item_id: deleteItemId })
+    setShowDeleteConfirm(false)
+    setDeleteItemId(null)
+    setDeleteItemName('')
   }
 
   const openEditModal = (item) => {
@@ -216,7 +235,10 @@ const InventoryManagement = ({ onClose }) => {
   const closeModals = () => {
     setShowAddModal(false)
     setShowEditModal(false)
+    setShowDeleteConfirm(false)
     setCurrentItem(null)
+    setDeleteItemId(null)
+    setDeleteItemName('')
     setFormData({ item_name: '', category: '', quantity: 0 })
     setFormErrors({})
     setError('')
@@ -627,6 +649,38 @@ const InventoryManagement = ({ onClose }) => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && (
+        <div className="modal-overlay" onClick={cancelDeleteItem}>
+          <div className="modal-content confirmation-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>🗑️ Delete Item</h3>
+              <button 
+                onClick={cancelDeleteItem}
+                className="modal-close-btn"
+                aria-label="Close modal"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <div className="confirmation-message">
+              <p>Are you sure you want to delete item <strong>"{deleteItemName}"</strong>?</p>
+              <p className="warning-text">This action cannot be undone.</p>
+            </div>
+            
+            <div className="modal-actions">
+              <button type="button" className="btn btn-secondary" onClick={cancelDeleteItem}>
+                Cancel
+              </button>
+              <button type="button" className="btn-delete-confirm" onClick={confirmDeleteItem}>
+                🗑️ Delete Item
+              </button>
+            </div>
           </div>
         </div>
       )}

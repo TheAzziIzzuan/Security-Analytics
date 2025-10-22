@@ -533,6 +533,10 @@
   padding: 20px 24px;
 }
 
+.confirmation-modal .confirmation-message {
+  padding: 20px 24px;
+}
+
 .modal-content form > .form-group:first-child {
   margin-top: 0;
 }
@@ -802,6 +806,102 @@
   }
 }
 
+/* Delete Confirmation */
+.confirmation-modal {
+  max-width: 420px;
+}
+
+.confirmation-message {
+  padding: 20px 24px;
+  margin: 0;
+  background: #fff5f5;
+  border-left: 4px solid #e74c3c;
+  border-radius: 6px;
+}
+
+.confirmation-message p {
+  margin: 0;
+  color: #34495e;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.confirmation-message p:first-child {
+  margin-bottom: 8px;
+}
+
+.confirmation-message p strong {
+  color: #2c3e50;
+  font-weight: 700;
+}
+
+.confirmation-message .warning-text {
+  color: #c0392b;
+  font-weight: 600;
+}
+
+.btn-delete-confirm {
+  padding: 0 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: 0.3px;
+  height: 44px;
+  background: #e74c3c;
+  color: white;
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.25);
+}
+
+.btn-delete-confirm:hover:not(:disabled) {
+  background: #c0392b;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(231, 76, 60, 0.35);
+}
+
+.btn-delete-confirm:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(231, 76, 60, 0.25);
+}
+
+.btn-delete-confirm:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.confirmation-modal .modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.confirmation-modal .modal-actions .btn,
+.confirmation-modal .modal-actions .btn-delete-confirm {
+  height: 44px;
+  padding: 0 24px;
+  margin: 0;
+  line-height: 44px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: none;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .inventory-controls {
@@ -887,8 +987,8 @@
   }
 
   .modal-actions .btn {
-    width: 100%;
-    justify-content: center;
+    width: auto;
+    min-width: 120px;
   }
 
   .inventory-header h2 {

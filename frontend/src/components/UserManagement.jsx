@@ -453,7 +453,10 @@ const UserManagement = ({ onClose }) => {
               </button>
             </div>
             
-            <p className="confirmation-text">Are you sure you want to delete user <strong>"{deleteUsername}"</strong>? This action cannot be undone.</p>
+            <div className="confirmation-message">
+              <p>Are you sure you want to delete user <strong>"{deleteUsername}"</strong>?</p>
+              <p className="warning-text">This action cannot be undone.</p>
+            </div>
             
             <div className="modal-actions">
               <button type="button" className="btn-cancel" onClick={cancelDelete} disabled={loading}>
