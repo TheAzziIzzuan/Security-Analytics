@@ -64,6 +64,11 @@ def get_anomaly_scores():
                             for key in ('per_feature_stats', 'causes_detail', 'std_pct', 'deviation_pct', 'findings', 'explanation'):
                                 if em.get(key) is not None:
                                     d[key] = em.get(key)
+                            # Also prefer friendly user fields (username, role_name) from the enriched output
+                            if em.get('username'):
+                                d['username'] = em.get('username')
+                            if em.get('role_name'):
+                                d['role_name'] = em.get('role_name')
             except Exception:
                 # If enrichment fails, fall back to seeded rows unchanged
                 pass

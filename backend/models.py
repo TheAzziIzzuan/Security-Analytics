@@ -158,6 +158,8 @@ class AnomalyScore(db.Model):
         return {
             'score_id': self.score_id,
             'user_id': self.user_id,
+            'username': self.user.username if self.user else None,
+            'role_name': self.user.role.role_name if self.user and self.user.role else None,
             'session_id': self.session_id,
             'risk_score': float(self.risk_score) if self.risk_score else None,
             'risk_level': self.risk_level,

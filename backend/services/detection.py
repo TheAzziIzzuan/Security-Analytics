@@ -359,6 +359,7 @@ def compute_anomaly_scores(days=30, obs_hours=24):
                 'score_id': as_rec.score_id,
                 'user_id': u.user_id,
                 'username': u.username if getattr(u, 'username', None) else None,
+                'role_name': u.role.role_name if getattr(u, 'role', None) else None,
                 'session_id': session_id if 'session_id' in locals() else None,
                 'last_analyzed_log_id': None,
                 'risk_score': int(score),
