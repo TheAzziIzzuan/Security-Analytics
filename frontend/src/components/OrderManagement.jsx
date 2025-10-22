@@ -185,6 +185,21 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
 
   const isSupervisor = currentUser?.role === 'supervisor' || currentUser?.role === 'admin'
 
+  // Auto-dismiss success/error messages
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => setSuccess(''), 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [success])
+
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(''), 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [error])
+
   // Export orders to CSV
   const exportOrdersCSV = () => {
     const headers = ['Order ID', 'User', 'Item', 'Quantity', 'Order Time']
@@ -228,6 +243,10 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
         )}
       </div>
 
+      {/* Toast Notifications */}
+      {success && <div className="success-message">{success}</div>}
+      {error && <div className="error-message">{error}</div>}
+
       {/* Filters and Actions */}
       <div className="order-controls">
         <div className="filters">
@@ -260,24 +279,25 @@ const OrderManagement = ({ onClose, restrictToCurrentUser = false, openAddOnMoun
           </select>
         </div>
 
-        <button 
-          onClick={() => { setShowAddModal(true); logActivity('order_add_modal_open', {}) }} 
-          className="btn btn-primary"
-        >
-          {addBtnLabel}
-        </button>
-        <button 
-          onClick={exportOrdersCSV}
-          className="btn btn-secondary"
-          style={{ marginLeft: '8px' }}
-        >
-          ⬇️ Export CSV
-        </button>
+        <div className="order-controls-buttons">
+          <button 
+            onClick={() => { setShowAddModal(true); logActivity('order_add_modal_open', {}) }} 
+            className="btn btn-primary"
+          >
+            {addBtnLabel}
+          </button>
+          <button 
+            onClick={exportOrdersCSV}
+            className="btn btn-secondary"
+          >
+            ⬇️ Export CSV
+          </button>
+        </div>
       </div>
 
       {/* Orders Table */}
       {loading ? (
-        <div className="loading">Loading orders...</div>
+        <div className="loading">⚙️ Loading orders...</div>
       ) : (
         <div className="order-table-container">
           <table className="order-table">
